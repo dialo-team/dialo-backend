@@ -1,0 +1,17 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: identity-service
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 604800000
+
+app:
+  security:
+    jwt:
+      access-token-expiration: 86400000
+      refresh-token-expiration: 604800000
+    disposable-email: 10minutemail,20minutemail,33mail,5ymail,anonbox,guerrillamail,mailinator,maildrop,mailnesia,moakt,my10minutemail,throwawaymail,trashmail,temp-mail,tempmail,truemail,yopmail
