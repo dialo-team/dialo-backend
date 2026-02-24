@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: identity
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?autoReconnect=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 604800000
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: caphecungjzang@gmail.com
+    password: ubkttmldixiatgxw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+security:
+  jwt:
+    private-key: classpath:certs/private.pem
+    public-key: classpath:certs/public.pem
+
+app:
+  security:
+    jwt:
+      access-token-expiration: 86400000
+      refresh-token-expiration: 604800000
+    disposable-email: 10minutemail,20minutemail,33mail,5ymail,anonbox,guerrillamail,mailinator,maildrop,mailnesia,moakt,my10minutemail,throwawaymail,trashmail,temp-mail,tempmail,truemail,yopmail
+
+server:
+  port: 8080
