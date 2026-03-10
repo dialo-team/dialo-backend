@@ -1,11 +1,14 @@
 package com.fit.se.service.impl;
 
+import com.fit.se.dto.response.DeviceSessionResponse;
+import com.fit.se.service.DeviceSessionService;
 import com.fit.se.service.JwtService;
 import com.fit.se.service.RedisService;
 import com.fit.se.util.KeyUtil;
 import com.fit.se.util.RefreshTokenHasher;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,10 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class JwtServiceImpl implements JwtService {
     public static final String TOKEN_TYPE = "token_type";
@@ -26,10 +31,16 @@ public class JwtServiceImpl implements JwtService {
     private long refreshTokenExpiration;
     private final RedisService redisService;
     private final RefreshTokenHasher refreshTokenHasher;
+    private final DeviceSessionService deviceSessionService;
 
-    public JwtServiceImpl(RedisService redisService, RefreshTokenHasher refreshTokenHasher) throws Exception {
+    public JwtServiceImpl(
+            RedisService redisService,
+            RefreshTokenHasher refreshTokenHasher,
+            DeviceSessionService deviceSessionService
+    ) throws Exception {
         this.redisService = redisService;
         this.refreshTokenHasher = refreshTokenHasher;
+        this.deviceSessionService = deviceSessionService;
         this.privateKey = KeyUtil.loadPrivateKey("certs/private.pem");
         this.publicKey = KeyUtil.loadPublicKey("certs/public.pem");
     }
@@ -49,6 +60,14 @@ public class JwtServiceImpl implements JwtService {
         String deviceKey = "auth:refresh:" + accId + ":" + deviceId;
         String deviceSetKey = "auth:user:" + accId + ":devices";
         String refreshTokenHash = refreshTokenHasher.hash(refreshToken);
+
+        List<DeviceSessionResponse> devices = deviceSessionService.getLoggedInDevices(accId);
+        devices.stream()
+                .filter(device -> device.deviceType().equals(deviceType))
+                .forEach(device -> {
+                    redisService.removeFromSet(deviceSetKey, device.deviceId());
+                    redisService.delete("auth:refresh:" + accId + ":" + device.deviceId());
+                });
 
         Instant now = Instant.now();
         redisService.addToSet(deviceSetKey, deviceId);
