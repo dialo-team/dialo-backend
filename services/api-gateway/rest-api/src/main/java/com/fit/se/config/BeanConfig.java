@@ -11,7 +11,7 @@ public class BeanConfig {
     public RouteLocator restRoute(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("identity_service", r -> r.path("/**")
-                        .uri("http://localhost:8081"))
+                        .uri("http://localhost:8082"))
                 .build();
     }
 }
