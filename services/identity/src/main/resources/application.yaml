@@ -27,6 +27,12 @@ spring:
           auth: true
           starttls:
             enable: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    stream:
+      username: admin
+      password: secure_password
 
 logging:
   level:

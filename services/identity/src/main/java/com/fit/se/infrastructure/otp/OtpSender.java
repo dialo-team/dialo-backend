@@ -19,6 +19,8 @@ public class OtpSender {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Unsupported OTP type"));
 
+        System.out.println("OTP: " + otp);
+
         state.send(destination, otp);
     }
 }

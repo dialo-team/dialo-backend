@@ -39,8 +39,6 @@ public class AuthenticationController {
                 .loginMethod("PASSWORD")
                 .build();
 
-        System.out.println("Agent: " + query.deviceName() + "\s| ip: " + query.ipAddress() );
-
         return ApiResponse.builder()
                 .status(200)
                 .data(generateTokenHandler.execute(query))

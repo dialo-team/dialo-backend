@@ -20,7 +20,7 @@ public class JpaAccountRepository implements AccountRepository {
 
     @Override
     public Optional<Account> findByPhone(String phone) {
-        return Optional.empty();
+        return accountRepo.findByPhone(phone).map(accountMapper::toDomain);
     }
 
     @Override
