@@ -24,7 +24,7 @@ public class ApplicationAuditorAware implements AuditorAware<String> {
         }
 
         final SecurityUser user = (SecurityUser) authentication.getPrincipal();
-        Account account = user.getAccount();
+        Account account = user.getUser();
         return Optional.ofNullable(Objects.requireNonNull(account).getId());
     }
 }

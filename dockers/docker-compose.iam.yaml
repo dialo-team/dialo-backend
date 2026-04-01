@@ -1,0 +1,27 @@
+services:
+  ms_iam_service:
+    container_name: ms_iam_service
+    build:
+      context: ../services/identity
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - ms_iam_db
+      - ms_iam_redis
+      - ms_rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms_iam_db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATA_REDIS_HOST: ms_iam_redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_RABBITMQ_HOST: ms_rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: root
+      SPRING_RABBITMQ_PASSWORD: root
+      SERVER_PORT: 8082
+
+networks:
+  micro-net:
+    external: false

@@ -1,0 +1,64 @@
+services:
+  ms_iam_db:
+    container_name: ms_iam_database
+    image: postgres:18
+    env_file:
+      - ../env/.env.iam
+    ports:
+      - "5432:5432"
+    volumes:
+      - D:/data/iam/postgresql:/var/lib/postgresql
+  ms_iam_redis:
+    container_name: ms_iam_redis
+    image: redis:8
+    env_file:
+      - ../env/.env.iam
+    ports:
+      - "6379:6379"
+    volumes:
+      - D:/data/iam/redis:/data
+  ms_iam_service:
+    container_name: ms_iam_service
+    build:
+      context: ../services/identity
+      dockerfile: ../services/identity/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - ms_iam_db
+      - ms_iam_redis
+      - ms_rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms_iam_db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATA_REDIS_HOST: ms_iam_redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_RABBITMQ_HOST: ms_rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: root
+      SPRING_RABBITMQ_PASSWORD: root
+      SERVER_PORT: 8082
+
+  ms_social_database:
+    container_name: ms_social_database
+    image: neo4j:2026
+    env_file:
+      - ../env/.env.social
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - D:/data/social/neo4j:/data
+
+
+  ms_rabbitmq:
+    container_name: ms_rabbitmq
+    image: rabbitmq:4-management
+    env_file:
+      - ../env/.env.rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - D:/data/rabbitmq:/var/lib/rabbitmq
