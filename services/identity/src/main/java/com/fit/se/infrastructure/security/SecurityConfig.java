@@ -1,9 +1,9 @@
 package com.fit.se.infrastructure.security;
 
-import com.fit.se.infrastructure.token.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,15 +19,23 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final String[] PUBLIC_URLS = {
+            "/error",
             "/api/v1/accounts/devices",
-            "/api/v1/auth/**",
+            "/api/v1/auth/signin",
+            "/api/v1/auth/signin/verify",
+            "/api/v1/auth/signup",
+            "/api/v1/auth/signup/verify",
+            "/api/v1/auth/refresh",
+            "/api/v1/auth/qr/challenges",
             "/api/v1/otp/**"
     };
     private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) {
-        return http.csrf(AbstractHttpConfigurer::disable)
+        return http
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_URLS)
                         .permitAll()
                         .anyRequest()

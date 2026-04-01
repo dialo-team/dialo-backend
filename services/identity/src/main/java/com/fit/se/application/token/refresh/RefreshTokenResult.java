@@ -6,7 +6,5 @@ import lombok.Builder;
 public record RefreshTokenResult(
         String accessToken,
         String refreshToken,
-        String tokenType,
-        String deviceId,
-        String deviceType
+        String tokenType
 ) {}

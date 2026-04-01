@@ -3,19 +3,25 @@ spring:
     name: identity
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?autoReconnect=true
-    username: root
-    password: root
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      timeout: 604800000
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+    jpa:
+      hibernate:
+        ddl-auto: update
+
+    data:
+      redis:
+        host: ${SPRING_DATA_REDIS_HOST}
+        port: ${SPRING_DATA_REDIS_PORT}
+
+    rabbitmq:
+      host: ${SPRING_RABBITMQ_HOST}
+      port: ${SPRING_RABBITMQ_PORT}
+      username: ${SPRING_RABBITMQ_USERNAME}
+      password: ${SPRING_RABBITMQ_PASSWORD}
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -45,4 +51,4 @@ app:
     disposable-email: 10minutemail,20minutemail,33mail,5ymail,anonbox,guerrillamail,mailinator,maildrop,mailnesia,moakt,my10minutemail,throwawaymail,trashmail,temp-mail,tempmail,truemail,yopmail
 
 server:
-  port: 8082
+  port: ${SERVER_PORT:8082}
