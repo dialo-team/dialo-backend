@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - D:/data/iam/postgresql:/var/lib/postgresql
+      - D:/data/iam/postgresql:/var/lib/postgresql/data
   ms_iam_redis:
     container_name: ms_iam_redis
     image: redis:8
