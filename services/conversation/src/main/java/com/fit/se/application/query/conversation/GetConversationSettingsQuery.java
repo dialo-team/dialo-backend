@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.query.conversation;
+package com.fit.se.application.query.conversation;
 
-import com.yourcompany.conversationservice.application.common.query.Query;
+import com.fit.se.application.common.query.Query;
 
 public record GetConversationSettingsQuery(String conversationId, Long actorUserId) implements Query {
 }

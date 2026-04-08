@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.membership;
+package com.fit.se.application.handler.command.membership;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.membership.TransferOwnershipCommand;
-import com.yourcompany.conversationservice.application.result.membership.MembershipActionResult;
+import com.fit.se.application.command.membership.TransferOwnershipCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.membership.MembershipActionResult;
 
 @CommandHandler
 public class TransferOwnershipHandler {

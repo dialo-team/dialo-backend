@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.membership;
+package com.fit.se.application.handler.query.membership;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.membership.ListConversationMembersQuery;
-import com.yourcompany.conversationservice.application.result.membership.MemberResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.membership.ListConversationMembersQuery;
+import com.fit.se.application.result.membership.MemberResult;
 
 @QueryHandler
 public class ListConversationMembersHandler {

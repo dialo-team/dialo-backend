@@ -1,6 +1,8 @@
 package com.fit.se.infrastructure.persistence.repository.adapter.settings;
 
-import com.fit.se.domain.settings.model.ConversationMemberSettings;
+import com.fit.se.domain.common.valueobject.UserId;
+import com.fit.se.domain.conversation.valueobject.ConversationId;
+import com.fit.se.domain.settings.aggregate.ConversationMemberSettings;
 import com.fit.se.domain.settings.repository.ConversationMemberSettingsRepository;
 import com.fit.se.infrastructure.persistence.mapper.settings.SettingsPersistenceMapper;
 import com.fit.se.infrastructure.persistence.repository.jpa.settings.SpringDataConversationMemberSettingsJpaRepository;
@@ -27,5 +29,10 @@ public class ConversationMemberSettingsRepositoryAdapter implements Conversation
     @Override
     public Optional<ConversationMemberSettings> findByConversationIdAndUserId(UUID conversationId, Long userId) {
         return repository.findByIdConversationIdAndIdUserId(conversationId, userId).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<ConversationMemberSettings> findByConversationIdAndUserId(ConversationId conversationId, UserId userId) {
+        return Optional.empty();
     }
 }

@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.join;
+package com.fit.se.application.handler.command.join;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.join.RejectJoinRequestCommand;
-import com.yourcompany.conversationservice.application.result.join.JoinRequestResult;
+import com.fit.se.application.command.join.RejectJoinRequestCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.join.JoinRequestResult;
 
 @CommandHandler
 public class RejectJoinRequestHandler {

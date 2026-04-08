@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.common.query;
+package com.fit.se.application.common.query;
 
 public interface Query {
 }

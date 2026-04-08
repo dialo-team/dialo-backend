@@ -1,7 +1,7 @@
 package com.fit.se.infrastructure.persistence.entity.conversation;
 
-import com.fit.se.domain.conversation.model.ConversationStatus;
-import com.fit.se.domain.conversation.model.ConversationType;
+import com.fit.se.domain.conversation.aggregate.ConversationStatus;
+import com.fit.se.domain.conversation.aggregate.ConversationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

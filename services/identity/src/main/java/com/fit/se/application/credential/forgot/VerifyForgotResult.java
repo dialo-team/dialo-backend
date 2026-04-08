@@ -1,4 +1,9 @@
 package com.fit.se.application.credential.forgot;
 
-public record VerifyForgotResult() {
+import lombok.Builder;
+
+@Builder
+public record VerifyForgotResult(
+        String resetToken
+) {
 }

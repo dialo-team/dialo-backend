@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.output.label;
+package com.fit.se.application.port.output.label;
 
 public interface SaveUserLabelPort {
 }

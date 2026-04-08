@@ -19,7 +19,6 @@ public class Credential {
     public void rotateSecret(String encodedData, byte[] newSalt) {
         this.secretData = encodedData;
         this.salt = newSalt;
-        this.version++;
     }
 
     public void changePriority(int newPriority) {
@@ -32,6 +31,20 @@ public class Credential {
 
     public static Credential create(String secretData, String type, String credentialData, byte[] salt, String userId) {
         Credential credential = new Credential();
+        credential.userId = userId;
+        credential.type = type;
+        credential.secretData = secretData;
+        credential.salt = salt;
+        credential.credentialData = credentialData;
+        credential.priority = 0;
+        credential.version = 1;
+        credential.userId = userId;
+        return credential;
+    }
+
+    public static Credential create(String id, String secretData, String type, String credentialData, byte[] salt, String userId) {
+        Credential credential = new Credential();
+        credential.id = id;
         credential.userId = userId;
         credential.type = type;
         credential.secretData = secretData;

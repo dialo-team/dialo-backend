@@ -1,6 +1,10 @@
 package com.fit.se.api.controller;
 
 import com.fit.se.api.dto.request.*;
+import com.fit.se.application.credential.forgot.ForgotByPhoneCommand;
+import com.fit.se.application.credential.forgot.ForgotCommandHandler;
+import com.fit.se.application.credential.forgot.VerifyForgotCommand;
+import com.fit.se.application.credential.forgot.VerifyForgotCommandHandler;
 import com.fit.se.application.qr.approve.QRApproveCommand;
 import com.fit.se.application.qr.approve.QRApproveCommandHandler;
 import com.fit.se.application.qr.exchange.QRExchangeCommand;
@@ -42,6 +46,8 @@ public class AuthenticationController {
     private final QRApproveCommandHandler qrApproveCommandHandler;
     private final QRExchangeCommandHandler qrExchangeCommandHandler;
     private final VerifyOTPForSignInCommandHandler verifyOTPForSignInCommandHandler;
+    private final ForgotCommandHandler forgotCommandHandler;
+    private final VerifyForgotCommandHandler verifyForgotCommandHandler;
 
     /**
      *
@@ -258,6 +264,39 @@ public class AuthenticationController {
                 .status(201)
                 .data(qrExchangeCommandHandler.execute(cmd))
                 .message("account is logout")
+                .build();
+    }
+
+    @PostMapping("/forgot/phone")
+    public ApiResponse<?> forgotPasswordByPhone(@RequestBody ForgotPasswordPhoneRequest request) {
+        ForgotByPhoneCommand cmd = ForgotByPhoneCommand.builder()
+                .phone(request.phone())
+                .build();
+        forgotCommandHandler.execute(cmd);
+        return ApiResponse.builder()
+                .status(200)
+                .message("If the phone number exists, OTP has been sent.")
+                .build();
+    }
+
+    @PostMapping("/forgot/phone/verify")
+    public ApiResponse<?> verifyForgotPasswordByPhone(@RequestBody ForgotPasswordPhoneRequest request) {
+        VerifyForgotCommand cmd = VerifyForgotCommand.builder()
+                .phone(request.phone())
+                .build();
+
+        return ApiResponse.builder()
+                .status(200)
+                .data(verifyForgotCommandHandler.execute(cmd))
+                .build();
+    }
+
+    @PostMapping("/forgot/email")
+    public ApiResponse<?> forgotPasswordByEmail(@RequestBody ForgotPasswordEmailRequest request) {
+
+        return ApiResponse.builder()
+                .status(200)
+                .message("If the email exists, reset instructions have been sent.")
                 .build();
     }
 }

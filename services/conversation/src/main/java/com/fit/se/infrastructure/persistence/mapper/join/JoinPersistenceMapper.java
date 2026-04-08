@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.mapper.join;
 
-import com.fit.se.domain.join.model.JoinRequest;
+import com.fit.se.domain.join.aggregate.JoinRequest;
 import com.fit.se.infrastructure.persistence.entity.join.JoinRequestEntity;
 
 public class JoinPersistenceMapper {

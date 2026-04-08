@@ -1,4 +1,7 @@
-package com.fit.se.domain.membership.aggregate;
+package com.fit.se.domain.membership.valueobject;
 
-public class MemberRole {
+public enum MemberRole {
+    OWNER,
+    MEMBER
 }
+

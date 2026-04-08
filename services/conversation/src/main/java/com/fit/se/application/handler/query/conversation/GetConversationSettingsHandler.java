@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.conversation;
+package com.fit.se.application.handler.query.conversation;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.conversation.GetConversationSettingsQuery;
-import com.yourcompany.conversationservice.application.result.settings.ConversationSettingsResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.conversation.GetConversationSettingsQuery;
+import com.fit.se.application.result.settings.ConversationSettingsResult;
 
 @QueryHandler
 public class GetConversationSettingsHandler {

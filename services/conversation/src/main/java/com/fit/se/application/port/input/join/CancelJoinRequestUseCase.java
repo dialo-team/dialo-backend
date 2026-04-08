@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.input.join;
+package com.fit.se.application.port.input.join;
 
 public interface CancelJoinRequestUseCase {
 }

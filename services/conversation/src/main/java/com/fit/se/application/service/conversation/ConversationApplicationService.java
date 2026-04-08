@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.service.conversation;
+package com.fit.se.application.service.conversation;
 
-import com.yourcompany.conversationservice.application.common.annotation.UseCase;
+import com.fit.se.application.common.annotation.UseCase;
 
 @UseCase
 public class ConversationApplicationService {

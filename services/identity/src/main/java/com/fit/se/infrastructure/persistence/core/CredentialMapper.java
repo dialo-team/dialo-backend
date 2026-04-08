@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 public class CredentialMapper {
     public CredentialEntity toEntity(Credential domain) {
         return CredentialEntity.builder()
+                .id(domain.getId())
                 .secretData(domain.getSecretData())
                 .salt(domain.getSalt())
                 .credentialData(domain.getCredentialData())
@@ -20,6 +21,6 @@ public class CredentialMapper {
     }
 
     public Credential toDomain(CredentialEntity entity) {
-        return Credential.create(entity.getSecretData(), entity.getType(), entity.getCredentialData(), entity.getSalt(), entity.getUser().getId());
+        return Credential.create(entity.getId(), entity.getSecretData(), entity.getType(), entity.getCredentialData(), entity.getSalt(), entity.getUser().getId());
     }
 }

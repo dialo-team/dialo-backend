@@ -13,12 +13,31 @@ import org.springframework.stereotype.Service;
 public class UPasswordCommandHandler {
     private final AccountRepository userRepo;
     private final CredentialRepository credentialRepo;
+    private final HasherFactory hasher;
 
     public void execute(UPasswordCommand cmd) {
-        Credential credential = credentialRepo.findByUser(cmd.userId());
-        HasherFactory hasher = new BcryptHasher();
+        String subject = cmd.auth().getName();
+
+        System.out.println("subject: " + subject);
+
+        Credential credential = credentialRepo.findByUser(subject);
+        if (credential == null) {
+            throw new RuntimeException("Không tìm thấy credential");
+        }
+
+        boolean matched = hasher.matches(
+                cmd.oldPass(),
+                credential.getSecretData(),
+                null
+        );
+
+        if (!matched) {
+            throw new RuntimeException("Mật khẩu cũ không khớp");
+        }
+
         String salt = hasher.generateSalt();
         String hashPassword = hasher.hash(cmd.newPass(), salt);
+
         credential.rotateSecret(hashPassword, salt.getBytes());
         credentialRepo.save(credential);
     }

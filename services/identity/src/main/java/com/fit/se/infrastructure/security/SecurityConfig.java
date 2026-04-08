@@ -27,7 +27,12 @@ public class SecurityConfig {
             "/api/v1/auth/signup/verify",
             "/api/v1/auth/refresh",
             "/api/v1/auth/qr/challenges",
-            "/api/v1/otp/**"
+            "/api/v1/otp/**",
+
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/favicon.ico"
     };
     private final JwtFilter jwtFilter;
 

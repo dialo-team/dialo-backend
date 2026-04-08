@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.common.port;
+package com.fit.se.application.common.port;
 
 public interface CurrentUserPort {
     Long currentUserId();

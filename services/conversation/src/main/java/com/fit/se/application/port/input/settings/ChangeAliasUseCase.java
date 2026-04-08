@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.input.settings;
+package com.fit.se.application.port.input.settings;
 
 public interface ChangeAliasUseCase {
 }

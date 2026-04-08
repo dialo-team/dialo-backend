@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.mapper.settings;
 
-import com.fit.se.domain.settings.model.ConversationMemberSettings;
+import com.fit.se.domain.settings.aggregate.ConversationMemberSettings;
 import com.fit.se.infrastructure.persistence.entity.settings.ConversationMemberSettingsEntity;
 import com.fit.se.infrastructure.persistence.entity.settings.ConversationMemberSettingsIdEmbeddable;
 

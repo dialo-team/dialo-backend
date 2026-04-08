@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.input.label;
+package com.fit.se.application.port.input.label;
 
 public interface DeleteUserLabelUseCase {
 }

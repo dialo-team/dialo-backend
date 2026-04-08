@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.label;
+package com.fit.se.application.handler.query.label;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.label.GetAssignedConversationLabelQuery;
-import com.yourcompany.conversationservice.application.result.label.AssignedLabelResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.label.GetAssignedConversationLabelQuery;
+import com.fit.se.application.result.label.AssignedLabelResult;
 
 @QueryHandler
 public class GetAssignedConversationLabelHandler {

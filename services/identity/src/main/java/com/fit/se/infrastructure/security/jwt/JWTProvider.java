@@ -28,6 +28,7 @@ public class JWTProvider implements TokenProvider {
     private long accessTokenExpiration;
     @Value("${app.security.jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
+    private long resetTokenExpiration = 300000;
 
     @Override
     public String generate(TokenPurpose purpose, String subject) {
@@ -35,6 +36,7 @@ public class JWTProvider implements TokenProvider {
         return switch (purpose) {
             case ACCESS -> generateAccessToken(subject, jti);
             case REFRESH -> generateRefreshToken(subject, jti);
+            case RESET -> generateResetToken(subject, jti);
         };
     }
 
@@ -95,11 +97,20 @@ public class JWTProvider implements TokenProvider {
         return buildToken(subject, claims, this.refreshTokenExpiration );
     }
 
+    private String generateResetToken(String subject, String jti) {
+        final Map<String, Object> claims = Map.of(
+                TOKEN_TYPE, "RESET",
+                JTI, jti
+        );
+        return buildToken(subject, claims, this.resetTokenExpiration);
+    }
+
     private boolean isTokenExpired(final String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
     public Claims extractClaims(String token) {
+        System.out.println("token: " + token);
         try {
             return Jwts.parser()
                     .verifyWith(publicKey)

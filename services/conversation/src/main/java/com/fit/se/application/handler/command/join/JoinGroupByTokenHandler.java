@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.join;
+package com.fit.se.application.handler.command.join;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.join.JoinGroupByTokenCommand;
-import com.yourcompany.conversationservice.application.result.membership.MembershipActionResult;
+import com.fit.se.application.command.join.JoinGroupByTokenCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.membership.MembershipActionResult;
 
 @CommandHandler
 public class JoinGroupByTokenHandler {

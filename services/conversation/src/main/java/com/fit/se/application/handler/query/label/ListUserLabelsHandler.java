@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.label;
+package com.fit.se.application.handler.query.label;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.label.ListUserLabelsQuery;
-import com.yourcompany.conversationservice.application.result.label.UserLabelResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.label.ListUserLabelsQuery;
+import com.fit.se.application.result.label.UserLabelResult;
 
 @QueryHandler
 public class ListUserLabelsHandler {

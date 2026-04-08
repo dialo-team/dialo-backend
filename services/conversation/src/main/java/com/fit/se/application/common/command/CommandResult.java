@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.common.command;
+package com.fit.se.application.common.command;
 
 public interface CommandResult {
 }

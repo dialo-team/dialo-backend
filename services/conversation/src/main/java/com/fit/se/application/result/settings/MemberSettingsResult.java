@@ -1,6 +1,3 @@
-package com.yourcompany.conversationservice.application.result.settings;
+package com.fit.se.application.result.settings;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
-
-public record MemberSettingsResult(Long userId, boolean pinned, boolean muted, boolean hidden, String alias, String assignedLabelId) implements QueryResult {
-}
+public record MemberSettingsResult(Boolean pinned, Boolean muted, Boolean hidden, String alias) {}

@@ -1,7 +1,7 @@
 package com.fit.se.infrastructure.persistence.entity.join;
 
-import com.fit.se.domain.join.model.JoinMethod;
-import com.fit.se.domain.join.model.JoinRequestStatus;
+import com.fit.se.domain.join.aggregate.JoinMethod;
+import com.fit.se.domain.join.aggregate.JoinRequestStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.service.label;
+package com.fit.se.application.service.label;
 
-import com.yourcompany.conversationservice.application.common.annotation.UseCase;
+import com.fit.se.application.common.annotation.UseCase;
 
 @UseCase
 public class LabelApplicationService {

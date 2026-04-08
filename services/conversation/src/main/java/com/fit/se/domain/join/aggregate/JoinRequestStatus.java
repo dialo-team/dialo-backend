@@ -1,4 +1,9 @@
 package com.fit.se.domain.join.aggregate;
 
-public class JoinRequestStatus {
+public enum JoinRequestStatus {
+    PENDING,
+    APPROVED,
+    REJECTED,
+    CANCELED,
+    EXPIRED
 }

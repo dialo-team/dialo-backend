@@ -1,6 +1,3 @@
-package com.yourcompany.conversationservice.application.result.conversation;
+package com.fit.se.application.result.conversation;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
-
-public record GroupInfoResult(String groupName, String avatarUrl) implements QueryResult {
-}
+public record GroupInfoResult(String name, String avatarUrl) {}

@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.join;
+package com.fit.se.application.handler.query.join;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.join.ListPendingJoinRequestsQuery;
-import com.yourcompany.conversationservice.application.result.join.JoinRequestResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.join.ListPendingJoinRequestsQuery;
+import com.fit.se.application.result.join.JoinRequestResult;
 
 @QueryHandler
 public class ListPendingJoinRequestsHandler {

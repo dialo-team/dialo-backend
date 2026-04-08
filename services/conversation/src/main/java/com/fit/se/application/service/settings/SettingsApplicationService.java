@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.service.settings;
+package com.fit.se.application.service.settings;
 
-import com.yourcompany.conversationservice.application.common.annotation.UseCase;
+import com.fit.se.application.common.annotation.UseCase;
 
 @UseCase
 public class SettingsApplicationService {
