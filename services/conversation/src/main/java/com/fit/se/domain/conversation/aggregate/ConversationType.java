@@ -1,4 +1,8 @@
 package com.fit.se.domain.conversation.aggregate;
 
-public class ConversationType {
+public enum ConversationType {
+    DIRECT,
+    GROUP,
+    SELF,
+    SYSTEM
 }

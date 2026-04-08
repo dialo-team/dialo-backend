@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.entity.conversation;
 
-import com.fit.se.domain.conversation.model.MemberPermissionScope;
+import com.fit.se.domain.conversation.aggregate.MemberPermissionScope;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

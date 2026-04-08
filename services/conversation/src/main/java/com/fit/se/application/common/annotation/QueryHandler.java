@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.common.annotation;
+package com.fit.se.application.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

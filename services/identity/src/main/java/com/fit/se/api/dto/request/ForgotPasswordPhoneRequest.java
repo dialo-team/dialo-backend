@@ -1,5 +1,5 @@
 package com.fit.se.api.dto.request;
 
-public record ForgotPassRequest(
-
+public record ForgotPasswordPhoneRequest(
+    String phone
 ) {}

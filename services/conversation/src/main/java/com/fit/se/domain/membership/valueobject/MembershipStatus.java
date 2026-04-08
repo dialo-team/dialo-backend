@@ -1,4 +1,8 @@
-package com.fit.se.domain.membership.aggregate;
+package com.fit.se.domain.membership.valueobject;
 
-public class MembershipStatus {
+public enum MembershipStatus {
+    ACTIVE,
+    LEFT,
+    REMOVED
 }
+

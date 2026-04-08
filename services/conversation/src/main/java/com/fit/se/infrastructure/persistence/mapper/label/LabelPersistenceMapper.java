@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.mapper.label;
 
-import com.fit.se.domain.label.model.UserConversationLabel;
+import com.fit.se.domain.label.aggregate.UserConversationLabel;
 import com.fit.se.infrastructure.persistence.entity.label.UserConversationLabelEntity;
 
 public class LabelPersistenceMapper {

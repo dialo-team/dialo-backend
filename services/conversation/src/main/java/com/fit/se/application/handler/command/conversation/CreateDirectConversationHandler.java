@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.conversation;
+package com.fit.se.application.handler.command.conversation;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.conversation.CreateDirectConversationCommand;
-import com.yourcompany.conversationservice.application.result.conversation.ConversationCreatedResult;
+import com.fit.se.application.command.conversation.CreateDirectConversationCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.conversation.ConversationCreatedResult;
 
 @CommandHandler
 public class CreateDirectConversationHandler {

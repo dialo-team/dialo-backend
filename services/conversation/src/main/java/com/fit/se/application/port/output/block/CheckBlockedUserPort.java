@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.output.block;
+package com.fit.se.application.port.output.block;
 
 public interface CheckBlockedUserPort {
 }

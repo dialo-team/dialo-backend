@@ -8,12 +8,15 @@ import com.fit.se.application.user.command.changeemail.UEmailCommandHandler;
 import com.fit.se.application.user.command.changepass.UPasswordCommand;
 import com.fit.se.application.user.command.changepass.UPasswordCommandHandler;
 import com.fit.se.api.dto.response.ApiResponse;
+import com.fit.se.application.user.command.resetpass.ResetPassCommand;
+import com.fit.se.application.user.command.resetpass.ResetPassHandler;
 import com.fit.se.application.user.command.updatephone.UPhoneCommand;
 import com.fit.se.application.user.command.updatephone.UPhoneCommandHandler;
 import com.fit.se.application.user.command.updatephone.VerifyOTPUPhoneCommand;
 import com.fit.se.application.user.command.updatephone.VerifyPhoneCommandHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -26,12 +29,14 @@ public class UserController {
     private final UPhoneCommandHandler uPhoneCommandHandler;
     private final RevokeTokenHandler revokeTokenHandler;
     private final VerifyPhoneCommandHandler verifyPhoneCommandHandler;
+    private final ResetPassHandler resetPassHandler;
 
-    @PutMapping("/{id}/password")
-    public ApiResponse<?> updatePassword(@PathVariable String id,
+    @PutMapping("/password")
+    public ApiResponse<?> updatePassword(Authentication authentication,
                                          @RequestBody ChangePasswordRequest request) {
         UPasswordCommand cmd = UPasswordCommand.builder()
-                .userId(id)
+                .auth(authentication)
+                .oldPass(request.oldPass())
                 .newPass(request.newPass())
                 .build();
         RevokeAllCommand revokeCmd = RevokeAllCommand.builder()
@@ -40,14 +45,22 @@ public class UserController {
         uPasswordHandler.execute(cmd);
         revokeTokenHandler.execute(revokeCmd);
         return ApiResponse.builder()
-                .status(201)
+                .status(200)
                 .message("password is updated")
                 .build();
     }
 
-    @PostMapping("/{id}/password/verify")
-    public ApiResponse<?> verifyPassword() {
-        return ApiResponse.builder().build();
+    @PostMapping
+    public ApiResponse<?> resetPassword(Authentication authentication,
+                                        ResetPassRequest request) {
+        ResetPassCommand cmd = ResetPassCommand.builder()
+                .newPass(request.newPass())
+                .build();
+        resetPassHandler.execute(cmd);
+        return ApiResponse.builder()
+                .status(200)
+                .message("password is updated")
+                .build();
     }
 
     @PutMapping("/{id}/email")
@@ -96,12 +109,6 @@ public class UserController {
         return ApiResponse.builder()
                 .status(200)
                 .message("phone is updated")
-                .build();
-    }
-
-    @GetMapping("/me")
-    public ApiResponse<?> getMyInfo() {
-        return ApiResponse.builder()
                 .build();
     }
 }

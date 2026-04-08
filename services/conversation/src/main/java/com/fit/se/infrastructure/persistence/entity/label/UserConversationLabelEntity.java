@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.entity.label;
 
-import com.fit.se.domain.label.model.LabelType;
+import com.fit.se.domain.label.aggregate.LabelType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

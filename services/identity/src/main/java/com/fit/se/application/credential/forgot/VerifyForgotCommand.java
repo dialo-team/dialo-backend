@@ -1,4 +1,10 @@
 package com.fit.se.application.credential.forgot;
 
-public record VerifyForgotCommand() {
+import lombok.Builder;
+
+@Builder
+public record VerifyForgotCommand(
+        String phone,
+        String otp
+) {
 }

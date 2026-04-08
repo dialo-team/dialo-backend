@@ -1,4 +1,6 @@
-package com.fit.se.domain.settings.valueobject;
+package com.fit.se.domain.settings.aggregate;
 
-public class PinState {
+public enum PinState {
+    ENABLED,
+    DISABLED
 }

@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.result.conversation;
+package com.fit.se.application.result.conversation;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
+import java.util.UUID;
 
-public record ConversationSummaryResult(String conversationId, String type, String displayName, String status) implements QueryResult {
+public record ConversationSummaryResult(UUID conversationId, String type, String title) {
 }

@@ -1,6 +1,6 @@
 package com.fit.se.infrastructure.persistence.mapper.block;
 
-import com.fit.se.domain.block.model.GroupBlock;
+import com.fit.se.domain.block.aggregate.GroupBlock;
 import com.fit.se.infrastructure.persistence.entity.block.GroupBlockEntity;
 
 public class BlockPersistenceMapper {

@@ -1,6 +1,3 @@
-package com.yourcompany.conversationservice.application.result.bootstrap;
+package com.fit.se.application.result.bootstrap;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
-
-public record BootstrapStatusResult(Long userId, boolean selfConversationCreated, boolean systemConversationCreated, boolean defaultLabelsCreated) implements QueryResult {
-}
+public record BootstrapStatusResult(Long userId, boolean selfConversationCreated, boolean systemConversationCreated, boolean defaultLabelsCreated) {}

@@ -1,4 +1,6 @@
 package com.fit.se.api.dto.request;
 
-public record ResetPassRequest() {
+public record ResetPassRequest(
+        String newPass
+) {
 }

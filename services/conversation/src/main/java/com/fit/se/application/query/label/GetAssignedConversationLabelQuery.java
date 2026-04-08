@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.query.label;
+package com.fit.se.application.query.label;
 
-import com.yourcompany.conversationservice.application.common.query.Query;
+import com.fit.se.application.common.query.Query;
 
 public record GetAssignedConversationLabelQuery(String conversationId, Long actorUserId) implements Query {
 }

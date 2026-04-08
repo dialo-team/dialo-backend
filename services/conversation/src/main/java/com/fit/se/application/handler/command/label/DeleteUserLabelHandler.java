@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.label;
+package com.fit.se.application.handler.command.label;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.label.DeleteUserLabelCommand;
-import com.yourcompany.conversationservice.application.result.label.UserLabelResult;
+import com.fit.se.application.command.label.DeleteUserLabelCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.label.UserLabelResult;
 
 @CommandHandler
 public class DeleteUserLabelHandler {

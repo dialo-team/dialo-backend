@@ -1,4 +1,7 @@
 package com.fit.se.domain.join.aggregate;
 
-public class JoinMethod {
+public enum JoinMethod {
+    INVITE,
+    LINK,
+    QR
 }

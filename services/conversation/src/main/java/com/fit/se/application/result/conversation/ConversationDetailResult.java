@@ -1,6 +1,17 @@
-package com.yourcompany.conversationservice.application.result.conversation;
+package com.fit.se.application.result.conversation;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
+import com.fit.se.application.result.label.AssignedLabelResult;
+import com.fit.se.application.result.settings.MemberSettingsResult;
 
-public record ConversationDetailResult(String conversationId, String type, String status, String displayName, String avatarUrl, boolean approvalRequired, String joinToken) implements QueryResult {
+public record ConversationDetailResult(
+        String conversationId,
+        String type,
+        String status,
+        GroupInfoResult groupInfo,
+        PermissionPolicyResult permissionPolicy,
+        Boolean approvalRequired,
+        String joinToken,
+        MemberSettingsResult settings,
+        AssignedLabelResult assignedLabel
+) {
 }

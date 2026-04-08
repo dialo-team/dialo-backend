@@ -1,4 +1,7 @@
 package com.fit.se.domain.join.service;
 
-public class JoinTokenGenerator {
+import com.fit.se.domain.conversation.valueobject.JoinToken;
+
+public interface JoinTokenGenerator {
+    JoinToken generate();
 }

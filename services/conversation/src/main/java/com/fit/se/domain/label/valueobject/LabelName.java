@@ -1,4 +1,4 @@
-package com.fit.se.domain.label.aggregate;
+package com.fit.se.domain.label.valueobject;
 
 import java.util.Objects;
 

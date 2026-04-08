@@ -1,8 +1,8 @@
 package com.fit.se.infrastructure.persistence.mapper.conversation;
 
-import com.fit.se.domain.conversation.model.Conversation;
-import com.fit.se.domain.conversation.model.ConversationStatus;
-import com.fit.se.domain.conversation.model.ConversationType;
+import com.fit.se.domain.conversation.aggregate.Conversation;
+import com.fit.se.domain.conversation.aggregate.ConversationStatus;
+import com.fit.se.domain.conversation.aggregate.ConversationType;
 import com.fit.se.infrastructure.persistence.entity.conversation.ConversationEntity;
 
 public class ConversationPersistenceMapper {

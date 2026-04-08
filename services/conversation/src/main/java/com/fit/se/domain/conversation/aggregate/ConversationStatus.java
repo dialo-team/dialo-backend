@@ -1,4 +1,7 @@
 package com.fit.se.domain.conversation.aggregate;
 
-public class ConversationStatus {
+public enum ConversationStatus {
+    ACTIVE,
+    DISSOLVED
 }
+

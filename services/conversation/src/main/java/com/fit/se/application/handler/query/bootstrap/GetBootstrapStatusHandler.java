@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.bootstrap;
+package com.fit.se.application.handler.query.bootstrap;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.bootstrap.GetBootstrapStatusQuery;
-import com.yourcompany.conversationservice.application.result.bootstrap.BootstrapStatusResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.bootstrap.GetBootstrapStatusQuery;
+import com.fit.se.application.result.bootstrap.BootstrapStatusResult;
 
 @QueryHandler
 public class GetBootstrapStatusHandler {

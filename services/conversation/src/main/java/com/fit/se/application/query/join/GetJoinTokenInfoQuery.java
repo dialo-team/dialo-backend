@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.query.join;
+package com.fit.se.application.query.join;
 
-import com.yourcompany.conversationservice.application.common.query.Query;
+import com.fit.se.application.common.query.Query;
 
 public record GetJoinTokenInfoQuery(String conversationId, Long actorUserId) implements Query {
 }

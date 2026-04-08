@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.input.membership;
+package com.fit.se.application.port.input.membership;
 
 public interface LeaveGroupUseCase {
 }

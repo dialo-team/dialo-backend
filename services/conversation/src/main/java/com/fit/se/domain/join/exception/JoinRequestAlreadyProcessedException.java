@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.domain.join.exception;
+package com.fit.se.domain.join.exception;
 
-import com.yourcompany.conversationservice.domain.common.exception.BusinessRuleViolationException;
+import com.fit.se.domain.common.exception.BusinessRuleViolationException;
 
 public class JoinRequestAlreadyProcessedException extends BusinessRuleViolationException {
     public JoinRequestAlreadyProcessedException(String message) {

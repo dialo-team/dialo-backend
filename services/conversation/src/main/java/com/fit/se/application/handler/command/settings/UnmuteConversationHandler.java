@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.command.settings;
+package com.fit.se.application.handler.command.settings;
 
-import com.yourcompany.conversationservice.application.common.annotation.CommandHandler;
-import com.yourcompany.conversationservice.application.command.settings.UnmuteConversationCommand;
-import com.yourcompany.conversationservice.application.result.settings.ConversationSettingsResult;
+import com.fit.se.application.command.settings.UnmuteConversationCommand;
+import com.fit.se.application.common.annotation.CommandHandler;
+import com.fit.se.application.result.settings.ConversationSettingsResult;
 
 @CommandHandler
 public class UnmuteConversationHandler {

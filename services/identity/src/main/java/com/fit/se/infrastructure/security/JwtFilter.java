@@ -36,7 +36,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 || path.equals("/api/v1/auth/signup")
                 || path.equals("/api/v1/auth/signup/verify")
                 || path.equals("/api/v1/auth/refresh")
-                || path.equals("/api/v1/auth/qr/challenges")) {
+                || path.equals("/v3/api-docs/**")
+                || path.startsWith("/swagger-ui/")
+                || path.equals("/swagger-ui.html")
+                || path.equals("/favicon.ico")
+        ) {
             filterChain.doFilter(request, response);
             return;
         }

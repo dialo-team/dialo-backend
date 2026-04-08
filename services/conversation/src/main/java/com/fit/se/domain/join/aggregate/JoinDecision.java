@@ -1,4 +1,6 @@
 package com.fit.se.domain.join.aggregate;
 
-public class JoinDecision {
+public enum JoinDecision {
+    APPROVE,
+    REJECT
 }

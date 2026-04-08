@@ -1,4 +1,13 @@
 package com.fit.se.domain.label.exception;
 
-public class LabelNotFoundException {
+import com.fit.se.domain.common.exception.ResourceNotFoundException;
+
+public class LabelNotFoundException extends ResourceNotFoundException {
+    public LabelNotFoundException(String message) {
+        super(message);
+    }
+
+    public LabelNotFoundException() {
+        this("Label not found");
+    }
 }

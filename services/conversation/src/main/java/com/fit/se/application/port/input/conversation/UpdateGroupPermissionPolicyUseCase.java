@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.port.input.conversation;
+package com.fit.se.application.port.input.conversation;
 
 public interface UpdateGroupPermissionPolicyUseCase {
 }

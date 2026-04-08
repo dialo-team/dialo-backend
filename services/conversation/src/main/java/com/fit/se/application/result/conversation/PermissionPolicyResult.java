@@ -1,6 +1,3 @@
-package com.yourcompany.conversationservice.application.result.conversation;
+package com.fit.se.application.result.conversation;
 
-import com.yourcompany.conversationservice.application.common.query.QueryResult;
-
-public record PermissionPolicyResult(String editGroupInfoScope, String sendMessageScope, String inviteMemberScope) implements QueryResult {
-}
+public record PermissionPolicyResult(String editInfoScope, String sendMessageScope, String inviteScope) {}

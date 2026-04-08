@@ -1,6 +1,6 @@
-package com.yourcompany.conversationservice.application.command.membership;
+package com.fit.se.application.command.membership;
 
-import com.yourcompany.conversationservice.application.common.command.Command;
+import com.fit.se.application.common.command.Command;
 
 public record LeaveGroupCommand(String conversationId, Long actorUserId, Long nextOwnerUserId) implements Command {
 }

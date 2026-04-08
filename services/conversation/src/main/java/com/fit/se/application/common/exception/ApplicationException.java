@@ -1,4 +1,4 @@
-package com.yourcompany.conversationservice.application.common.exception;
+package com.fit.se.application.common.exception;
 
 public class ApplicationException extends RuntimeException {
     public ApplicationException(String message) {

@@ -1,7 +1,7 @@
 package com.fit.se.infrastructure.persistence.entity.membership;
 
-import com.fit.se.domain.membership.model.MemberRole;
-import com.fit.se.domain.membership.model.MembershipStatus;
+import com.fit.se.domain.membership.valueobject.MemberRole;
+import com.fit.se.domain.membership.valueobject.MembershipStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

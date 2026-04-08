@@ -1,4 +1,7 @@
 package com.fit.se.domain.common.exception;
 
-public class BusinessRuleViolationException {
+public class BusinessRuleViolationException extends DomainException {
+    public BusinessRuleViolationException(String message) {
+        super(message);
+    }
 }

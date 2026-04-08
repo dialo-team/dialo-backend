@@ -40,6 +40,21 @@ public class TokenStore {
         cache.addToSet(userTokenSetKey, jti);
     }
 
+    public void storeResetToken(String token, String subject, String jti) {
+        String tokenKey = buildKey(subject, jti);
+
+        System.out.println("token: " + hash(token));
+        System.out.println("subject: " + subject);
+        System.out.println("jti: " + jti);
+
+        cache.putHash(tokenKey, Map.of(
+                "token", hash(token),
+                "subject", subject,
+                "jti", jti
+        ));
+        cache.expire(tokenKey, 30000);
+    }
+
     public boolean exists(String subject, String jti) {
         return cache.exists(buildKey(subject, jti));
     }

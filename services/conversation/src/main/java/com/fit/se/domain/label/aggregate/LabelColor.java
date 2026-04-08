@@ -1,4 +1,4 @@
-package com.fit.se.domain.label.valueobject;
+package com.fit.se.domain.label.aggregate;
 
 import com.fit.se.domain.label.exception.InvalidLabelColorException;
 

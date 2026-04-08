@@ -1,8 +1,8 @@
-package com.yourcompany.conversationservice.application.handler.query.join;
+package com.fit.se.application.handler.query.join;
 
-import com.yourcompany.conversationservice.application.common.annotation.QueryHandler;
-import com.yourcompany.conversationservice.application.query.join.GetJoinTokenInfoQuery;
-import com.yourcompany.conversationservice.application.result.join.JoinTokenResult;
+import com.fit.se.application.common.annotation.QueryHandler;
+import com.fit.se.application.query.join.GetJoinTokenInfoQuery;
+import com.fit.se.application.result.join.JoinTokenResult;
 
 @QueryHandler
 public class GetJoinTokenInfoHandler {
