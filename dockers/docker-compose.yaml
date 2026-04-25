@@ -1,64 +1,99 @@
 services:
-  ms_iam_db:
+  ms_iam_database:
     container_name: ms_iam_database
     image: postgres:18
     env_file:
-      - ../env/.env.iam
+      - .env.iam
     ports:
       - "5432:5432"
     volumes:
-      - D:/data/iam/postgresql:/var/lib/postgresql
+      - /root/data/iam/postgresql:/var/lib/postgresql
   ms_iam_redis:
     container_name: ms_iam_redis
     image: redis:8
     env_file:
-      - ../env/.env.iam
+      - .env.iam
     ports:
       - "6379:6379"
     volumes:
-      - D:/data/iam/redis:/data
+      - /root/data/iam/redis:/data
   ms_iam_service:
     container_name: ms_iam_service
-    build:
-      context: ../services/identity
-      dockerfile: ../services/identity/Dockerfile
+    image: jzang/ms_iam_service:v2.1.1
     ports:
       - "8082:8082"
     depends_on:
-      - ms_iam_db
+      - ms_iam_database
       - ms_iam_redis
       - ms_rabbitmq
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://ms_iam_db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATA_REDIS_HOST: ms_iam_redis
-      SPRING_DATA_REDIS_PORT: 6379
-      SPRING_RABBITMQ_HOST: ms_rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: root
-      SPRING_RABBITMQ_PASSWORD: root
-      SERVER_PORT: 8082
+    env_file:
+      - .env.iam
 
   ms_social_database:
     container_name: ms_social_database
     image: neo4j:2026
     env_file:
-      - ../env/.env.social
+      - .env.social
     ports:
       - "7687:7687"
       - "7474:7474"
     volumes:
-      - D:/data/social/neo4j:/data
+      - /root/data/social/neo4j:/data
+  ms_social_service:
+    container_name: ms_social_service
+    image: jzang/ms_social_service:v1.0.0
+    ports:
+      - "8084:8084"
+    depends_on:
+      - ms_social_database
+      - ms_rabbitmq
+    env_file:
+      - .env.social
 
+  ms_conversation_database:
+    container_name: ms_conversation_database
+    image: postgres:18
+    env_file:
+      - .env.conversation
+    ports:
+      - "5433:5432"
+    volumes:
+      - /root/data/conversation/postgresql:/var/lib/postgresql
+
+  ms_chat_database:
+    container_name: ms_chat_database
+    image: mongo:8
+    env_file:
+      - .env.chat
+    ports:
+      - "27017:27017"
+    volumes:
+      - /root/data/chat/mongodb:/data/db
+
+  ms_chat_service:
+    container_name: ms_chat_service
+    image: jzang/ms_chat_service:v1.0.0
+    ports:
+      - "8085:8085"
+    depends_on:
+      - ms_chat_database
+      - ms_rabbitmq
+    env_file:
+      - .env.chat
+
+  ms_gateway:
+    container_name: ms_gateway
+    image: jzang/ms_gateway:v1.0.0
+    ports:
+      - "9000:9000"
 
   ms_rabbitmq:
     container_name: ms_rabbitmq
     image: rabbitmq:4-management
     env_file:
-      - ../env/.env.rabbitmq
+      - .env.rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - D:/data/rabbitmq:/var/lib/rabbitmq
+      - /root/data/rabbitmq:/var/lib/rabbitmq

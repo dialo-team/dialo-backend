@@ -1,25 +1,37 @@
 spring:
   application:
     name: ms_social_service
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   neo4j:
-    uri: bolt://localhost:7687
+    uri: bolt://14.225.254.174:7687
     authentication:
       username: neo4j
       password: ms_social_root
+
   rabbitmq:
-    host: localhost
+    host: 14.225.254.174
     port: 5672
+    username: root
+    password: root
     stream:
       username: root
       password: root
-    username: root
-    password: root
-  jpa:
-    d
-
 
 server:
   port: 8084
+
+aws:
+  access-key-id: AKIARLNKCLKL2ISEWDZJ
+  secret-access-key: 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
+  region: ap-southeast-1
+  s3:
+    bucket: jzang-bucket
+    public-base-url: https://jzang-bucket.s3.ap-southeast-1.amazonaws.com
+
 axon:
   axonserver:
     servers: localhost

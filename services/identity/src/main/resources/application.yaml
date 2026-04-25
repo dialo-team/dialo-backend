@@ -35,6 +35,22 @@ spring:
           auth: true
           starttls:
             enable: true
+  cloud:
+    aws:
+      region:
+        static: ap-southeast-1
+      credentials:
+        access-key: ${ACCESS_KEY}
+        secret-key: ${SECRET_KEY}
+      sns:
+        enabled: true
+        endpoint: arn:aws:sns:ap-southeast-1:093235337879:dialo-topic
+        region: ap-southeast-1
+esms:
+  api-key: 90E2791E666EB86A2596BFF67186BE
+  secret-key: 7579BF01D4E0834285135F4F514AF5
+  brandname: Baotrixemay
+  callback-url: https://esms.vn/webhook/
 
 logging:
   level:

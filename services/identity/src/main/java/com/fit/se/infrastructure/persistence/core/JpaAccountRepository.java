@@ -15,7 +15,7 @@ public class JpaAccountRepository implements AccountRepository {
 
     @Override
     public boolean existsByPhone(String phone) {
-        return false;
+        return userRepo.existsByPhone(phone);
     }
 
     @Override
@@ -43,6 +43,16 @@ public class JpaAccountRepository implements AccountRepository {
     @Override
     public Optional<Account> findById(String id) {
         return Optional.ofNullable(accountMapper.toDomain(userRepo.findById(id).orElseThrow()));
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepo.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<Account> findByEmail(String source) {
+        return userRepo.findByEmail(source).map(accountMapper::toDomain);
     }
 
 

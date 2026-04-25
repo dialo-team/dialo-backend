@@ -3,6 +3,7 @@ package com.fit.se.api.controller;
 import com.fit.se.api.dto.response.ApiResponse;
 import com.fit.se.application.user.query.info.InfoQuery;
 import com.fit.se.application.user.query.info.InfoQueryHandler;
+import com.fit.se.infrastructure.config.context.HolderContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,11 @@ public class UserController {
 
     @GetMapping("/{targetId}/info")
     public ApiResponse<?> lookupById(
-            @PathVariable String targetId,
-            @RequestHeader("X-User-Id") String currentUserId
+            @PathVariable String targetId
+            
     ) {
         InfoQuery query = InfoQuery.builder()
-                .current(currentUserId)
+                .current(HolderContext.getRequiredUserId())
                 .target(targetId)
                 .type(InfoQuery.LookupType.ID)
                 .build();
@@ -31,11 +32,11 @@ public class UserController {
 
     @GetMapping("/phone/{phone}/info")
     public ApiResponse<?> lookupByPhone(
-            @PathVariable String phone,
-            @RequestHeader("X-User-Id") String currentUserId
+            @PathVariable String phone
+            
     ) {
         InfoQuery query = InfoQuery.builder()
-                .current(currentUserId)
+                .current(HolderContext.getRequiredUserId())
                 .target(phone)
                 .type(InfoQuery.LookupType.PHONE)
                 .build();
@@ -47,11 +48,11 @@ public class UserController {
 
     @GetMapping("/qr/{qrToken}/info")
     public ApiResponse<?> lookupByQr(
-            @PathVariable String qrToken,
-            @RequestHeader("X-User-Id") String currentUserId
+            @PathVariable String qrToken
+            
     ) {
         InfoQuery query = InfoQuery.builder()
-                .current(currentUserId)
+                .current(HolderContext.getRequiredUserId())
                 .target(qrToken)
                 .type(InfoQuery.LookupType.QR)
                 .build();

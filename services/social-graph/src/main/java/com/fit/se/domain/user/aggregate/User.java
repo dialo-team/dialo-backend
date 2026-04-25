@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class User {
     private final String id;
+    private final Long version;
+
     private String userName;
     private String phone;
     private QrToken qrToken;
@@ -18,6 +20,7 @@ public class User {
 
     private User(
             String id,
+            Long version,
             String userName,
             String phone,
             QrToken qrToken,
@@ -48,6 +51,7 @@ public class User {
         }
 
         this.id = id;
+        this.version = version;
         this.userName = userName;
         this.phone = phone;
         this.qrToken = qrToken;
@@ -65,12 +69,13 @@ public class User {
             Appearance appearance,
             Privacy privacy
     ) {
-        return new User(id, userName, phone, qrToken, profile, appearance, privacy);
+        return new User(id, null, userName, phone, qrToken, profile, appearance, privacy);
     }
 
     public static User createDefault(String id, String phone, String qrTokenValue) {
         return new User(
                 id,
+                null,
                 "user_" + id,
                 phone,
                 QrToken.defaultOf(qrTokenValue),
@@ -82,6 +87,7 @@ public class User {
 
     public static User reconstitute(
             String id,
+            Long version,
             String userName,
             String phone,
             QrToken qrToken,
@@ -89,7 +95,7 @@ public class User {
             Appearance appearance,
             Privacy privacy
     ) {
-        return new User(id, userName, phone, qrToken, profile, appearance, privacy);
+        return new User(id, version, userName, phone, qrToken, profile, appearance, privacy);
     }
 
     public void changeUserName(String userName) {
@@ -140,5 +146,42 @@ public class User {
 
     public void rotateQrToken(String newToken) {
         this.qrToken = this.qrToken.rotateToken(newToken);
+    }
+
+    public void updateAvatar(String avatarUrl) {
+        this.appearance = new Appearance(
+                avatarUrl,
+                this.appearance.getBackground(),
+                this.appearance.getTheme()
+        );
+    }
+
+    public void updateBackground(String backgroundUrl) {
+        this.appearance = new Appearance(
+                this.appearance.getAvatar(),
+                backgroundUrl,
+                this.appearance.getTheme()
+        );
+    }
+
+    public void updateBio(String bio) {
+        this.profile = new Profile(
+                bio,
+                this.profile.getGender(),
+                this.profile.getDob()
+        );
+    }
+
+    public void updateBasicInfo(String userName, java.time.LocalDate dob, String gender) {
+        if (userName == null || userName.isBlank()) {
+            throw new IllegalArgumentException("Username must not be blank");
+        }
+
+        this.userName = userName;
+        this.profile = new Profile(
+                this.profile.getBio(),
+                gender,
+                dob
+        );
     }
 }

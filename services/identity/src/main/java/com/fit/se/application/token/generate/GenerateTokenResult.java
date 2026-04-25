@@ -6,5 +6,6 @@ import lombok.Builder;
 public record GenerateTokenResult(
         String accessToken,
         String refreshToken,
-        String tokenType
+        String tokenType,
+        String sessId
 ) {}

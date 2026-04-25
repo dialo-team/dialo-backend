@@ -3,7 +3,7 @@ services:
     container_name: ms_social_database
     image: neo4j:2026
     env_file:
-      - ../env/.env.social
+      - .env.social
     ports:
       - "7687:7687"
       - "7474:7474"

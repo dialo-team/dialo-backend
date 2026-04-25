@@ -1,5 +1,16 @@
 package com.fit.se.domain.session;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface ClientSessionRepository {
-    public void save(ClientSession client);
+    public String save(ClientSession client);
+
+    ClientSession findById(String targetSessId);
+
+    List<ClientSession> findByAccount(String accountId, SessionState state);
+
+    void updateState(String sessId, SessionState sessionState);
+
+    List<ClientSession> findByAccountWithout(String accountId, SessionState state);
 }

@@ -15,4 +15,8 @@ public interface FriendshipRepository {
     void deleteBetween(String s, String s1);
 
     List<Friendship> findAcceptedOf(String current);
+
+    List<Friendship> findPendingReceivedOf(String current);
+
+    List<Friendship> findPendingSentOf(String current);
 }

@@ -21,6 +21,6 @@ public class CredentialMapper {
     }
 
     public Credential toDomain(CredentialEntity entity) {
-        return Credential.create(entity.getId(), entity.getSecretData(), entity.getType(), entity.getCredentialData(), entity.getSalt(), entity.getUser().getId());
+        return Credential.create(entity.getId(), entity.getSecretData(), entity.getType(), entity.getCredentialData(), entity.getSalt(), entity.getUser().getId(), entity.getVersion());
     }
 }

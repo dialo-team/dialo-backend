@@ -31,10 +31,18 @@ public class JwtFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
         String path = request.getServletPath();
-        if (path.equals("/api/v1/auth/signin")
-                || path.equals("/api/v1/auth/signin/verify")
+        if (path.equals("/api/v1/auth/signin/request")
+                || path.equals("/api/v1/auth/signin")
                 || path.equals("/api/v1/auth/signup")
-                || path.equals("/api/v1/auth/signup/verify")
+                || path.equals("/api/v1/auth/signup/request")
+                || path.equals("/api/v1/auth/password/reset/request")
+                || path.equals("/api/v1/auth/password/reset/confirm")
+                || path.equals("/api/v1/auth/password/reset")
+                || path.equals("/api/v1/auth/old/signup")
+                || path.equals("/api/v1/auth/old/signup/verify")
+                || path.equals("/api/v1/auth/old/signin")
+                || path.equals("/api/v1/auth/old/signin/verify")
+                || path.equals("/api/v1/auth/qr/challenges/request")
                 || path.equals("/api/v1/auth/refresh")
                 || path.equals("/v3/api-docs/**")
                 || path.startsWith("/swagger-ui/")

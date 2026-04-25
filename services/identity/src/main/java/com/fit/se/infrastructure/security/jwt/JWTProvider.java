@@ -77,6 +77,7 @@ public class JWTProvider implements TokenProvider {
         return switch (tokenType) {
             case "ACCESS_TOKEN" -> TokenPurpose.ACCESS;
             case "REFRESH_TOKEN" -> TokenPurpose.REFRESH;
+            case "RESET_TOKEN" -> TokenPurpose.RESET;
             default -> throw new RuntimeException("Unknown token type");
         };
     }
@@ -99,7 +100,7 @@ public class JWTProvider implements TokenProvider {
 
     private String generateResetToken(String subject, String jti) {
         final Map<String, Object> claims = Map.of(
-                TOKEN_TYPE, "RESET",
+                TOKEN_TYPE, "RESET_TOKEN",
                 JTI, jti
         );
         return buildToken(subject, claims, this.resetTokenExpiration);

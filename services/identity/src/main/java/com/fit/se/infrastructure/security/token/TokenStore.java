@@ -23,18 +23,15 @@ public class TokenStore {
     @Value("${app.security.jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
-    public void store(String token, String subject, String jti) {
+    public void store(String token, String subject, String jti, String device) {
         String tokenKey = buildKey(subject, jti);
         String userTokenSetKey = buildUserTokenSetKey(subject);
-
-        System.out.println("token: " + hash(token));
-        System.out.println("subject: " + subject);
-        System.out.println("jti: " + jti);
 
         cache.putHash(tokenKey, Map.of(
                 "token", hash(token),
                 "subject", subject,
-                "jti", jti
+                "jti", jti,
+                "device", device
         ));
         cache.expire(tokenKey, refreshTokenExpiration);
         cache.addToSet(userTokenSetKey, jti);

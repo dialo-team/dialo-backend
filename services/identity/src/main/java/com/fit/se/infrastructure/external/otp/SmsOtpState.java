@@ -2,13 +2,16 @@ package com.fit.se.infrastructure.external.otp;
 
 import com.fit.se.domain.otp.OtpType;
 import com.fit.se.infrastructure.external.sms.SMSAmazon;
+import com.fit.se.infrastructure.external.sms.SMSSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
 public class SmsOtpState implements OtpChannelState {
-    private final SMSAmazon sms;
+    private final SMSSender sms;
 
     @Override
     public OtpType getType() {

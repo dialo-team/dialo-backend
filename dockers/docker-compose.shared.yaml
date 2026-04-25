@@ -3,7 +3,7 @@ services:
     container_name: ms_rabbitmq
     image: rabbitmq:4-management
     env_file:
-      - ../env/.env.rabbitmq
+      - .env.rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"

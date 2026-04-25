@@ -24,31 +24,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 public class UserController {
-    private final UPasswordCommandHandler uPasswordHandler;
     private final UEmailCommandHandler uEmailHandler;
     private final UPhoneCommandHandler uPhoneCommandHandler;
-    private final RevokeTokenHandler revokeTokenHandler;
     private final VerifyPhoneCommandHandler verifyPhoneCommandHandler;
     private final ResetPassHandler resetPassHandler;
 
-    @PutMapping("/password")
-    public ApiResponse<?> updatePassword(Authentication authentication,
-                                         @RequestBody ChangePasswordRequest request) {
-        UPasswordCommand cmd = UPasswordCommand.builder()
-                .auth(authentication)
-                .oldPass(request.oldPass())
-                .newPass(request.newPass())
-                .build();
-        RevokeAllCommand revokeCmd = RevokeAllCommand.builder()
-                .refreshToken(request.refreshToken())
-                .build();
-        uPasswordHandler.execute(cmd);
-        revokeTokenHandler.execute(revokeCmd);
-        return ApiResponse.builder()
-                .status(200)
-                .message("password is updated")
-                .build();
-    }
 
     @PostMapping
     public ApiResponse<?> resetPassword(Authentication authentication,

@@ -5,6 +5,7 @@ import com.fit.se.application.blocks.command.block.BlockFriendCommand;
 import com.fit.se.application.blocks.command.block.BlockFriendCommandHandler;
 import com.fit.se.application.blocks.command.unblock.UnblockFriendCommand;
 import com.fit.se.application.blocks.command.unblock.UnblockFriendCommandHandler;
+import com.fit.se.infrastructure.config.context.HolderContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,9 @@ public class BlockController {
 
     @PostMapping("/{targetUser}/block")
     public void block(@PathVariable("targetUser") String target,
-                      @RequestHeader("X-User-Id") String current,
                       @RequestBody(required = false) BlockRequest request) {
         BlockFriendCommand cmd = BlockFriendCommand.builder()
-                .blockerId(current)
+                .blockerId(HolderContext.getRequiredUserId())
                 .blockedId(target)
                 .blockId(UUID.randomUUID().toString())
                 .build();
@@ -30,10 +30,9 @@ public class BlockController {
     }
 
     @DeleteMapping("/{targetUser}/unblock")
-    public void unBlock(@PathVariable("targetUser") String target,
-                        @RequestHeader("X-User-Id") String current) {
+    public void unBlock(@PathVariable("targetUser") String target) {
         UnblockFriendCommand cmd = UnblockFriendCommand.builder()
-                .blockerId(current)
+                .blockerId(HolderContext.getRequiredUserId())
                 .blockedId(target)
                 .build();
         unblockFriendHandler.execute(cmd);

@@ -194,6 +194,66 @@ public class Neo4jFriendshipRepositoryAdapter implements FriendshipRepository {
                 .toList();
     }
 
+    @Override
+    public List<Friendship> findPendingReceivedOf(String current) {
+        String cypher = """
+        MATCH (:User)-[r:FRIENDSHIP]->(:User {id: $current})
+        WHERE r.status = 'PENDING'
+        RETURN r
+        ORDER BY r.requestedAt DESC
+        """;
+
+        return neo4jClient.query(cypher)
+                .bind(current).to("current")
+                .fetchAs(FriendshipRelationship.class)
+                .mappedBy((typeSystem, record) -> mapRelationship(record))
+                .all()
+                .stream()
+                .map(FriendshipPersistenceMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Friendship> findPendingSentOf(String current) {
+        String cypher = """
+        MATCH (:User {id: $current})-[r:FRIENDSHIP]->(:User)
+        WHERE r.status = 'PENDING'
+        RETURN r
+        ORDER BY r.requestedAt DESC
+        """;
+
+        return neo4jClient.query(cypher)
+                .bind(current).to("current")
+                .fetchAs(FriendshipRelationship.class)
+                .mappedBy((typeSystem, record) -> mapRelationship(record))
+                .all()
+                .stream()
+                .map(FriendshipPersistenceMapper::toDomain)
+                .toList();
+    }
+
+    private FriendshipRelationship mapRelationship(org.neo4j.driver.Record record) {
+        FriendshipRelationship r = new FriendshipRelationship();
+        r.setFriendshipId(record.get("r").get("friendshipId").asString());
+        r.setSenderId(record.get("r").get("senderId").asString());
+        r.setReceiverId(record.get("r").get("receiverId").asString());
+        r.setStatus(record.get("r").get("status").asString());
+
+        if (!record.get("r").get("requestedAt").isNull()) {
+            r.setRequestedAt(record.get("r").get("requestedAt").asZonedDateTime().toInstant());
+        }
+        if (!record.get("r").get("respondedAt").isNull()) {
+            r.setRespondedAt(record.get("r").get("respondedAt").asZonedDateTime().toInstant());
+        }
+        if (!record.get("r").get("acceptedAt").isNull()) {
+            r.setAcceptedAt(record.get("r").get("acceptedAt").asZonedDateTime().toInstant());
+        }
+        if (!record.get("r").get("unfriendedAt").isNull()) {
+            r.setUnfriendedAt(record.get("r").get("unfriendedAt").asZonedDateTime().toInstant());
+        }
+        return r;
+    }
+
     private OffsetDateTime toOffsetDateTime(Instant value) {
         return value == null ? null : value.atOffset(ZoneOffset.UTC);
     }

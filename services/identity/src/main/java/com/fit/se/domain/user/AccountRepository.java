@@ -15,4 +15,8 @@ public interface AccountRepository {
     void updateEmail(String id, String newEmail);
 
     Optional<Account> findById(String id);
+
+    boolean existsByEmail(String source);
+
+    Optional<Account> findByEmail(String source);
 }

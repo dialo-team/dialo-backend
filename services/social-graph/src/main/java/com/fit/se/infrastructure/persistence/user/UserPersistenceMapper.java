@@ -18,6 +18,7 @@ public final class UserPersistenceMapper {
     public static UserNode toNode(User user) {
         UserNode node = new UserNode();
         node.setId(user.getId());
+        node.setVersion(user.getVersion());
         node.setUserName(user.getUserName());
         node.setPhone(user.getPhone());
 
@@ -96,6 +97,7 @@ public final class UserPersistenceMapper {
 
         return User.reconstitute(
                 node.getId(),
+                node.getVersion(),
                 node.getUserName(),
                 node.getPhone(),
                 qrToken,

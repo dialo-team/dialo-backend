@@ -1,30 +1,19 @@
 package com.fit.se.api.controller;
 
 import com.fit.se.api.dto.request.*;
-import com.fit.se.application.credential.forgot.ForgotByPhoneCommand;
-import com.fit.se.application.credential.forgot.ForgotCommandHandler;
-import com.fit.se.application.credential.forgot.VerifyForgotCommand;
-import com.fit.se.application.credential.forgot.VerifyForgotCommandHandler;
-import com.fit.se.application.qr.approve.QRApproveCommand;
-import com.fit.se.application.qr.approve.QRApproveCommandHandler;
-import com.fit.se.application.qr.exchange.QRExchangeCommand;
-import com.fit.se.application.qr.exchange.QRExchangeCommandHandler;
-import com.fit.se.application.qr.generate.QRChallengeQuery;
-import com.fit.se.application.qr.generate.QRChallengeQueryHandler;
-import com.fit.se.application.token.generate.GenerateTokenQuery;
-import com.fit.se.application.token.generate.GenerateTokenQueryHandler;
-import com.fit.se.application.token.generate.VerifyOTPForSignInCommand;
-import com.fit.se.application.token.generate.VerifyOTPForSignInCommandHandler;
+import com.fit.se.application.changepass.ChangePasswordUseCase;
+import com.fit.se.application.forgotpass.ForgotPasswordUseCase;
+import com.fit.se.application.lock.LockAccountUseCase;
+import com.fit.se.application.session.GetSessionUseCase;
+import com.fit.se.application.signin.SignInUseCase;
+import com.fit.se.application.signout.SignOutUseCase;
+import com.fit.se.application.token.generate.*;
 import com.fit.se.application.token.refresh.RefreshTokenQuery;
 import com.fit.se.application.token.refresh.RefreshTokenQueryHandler;
 import com.fit.se.application.token.revoke.RevokeAllCommand;
-import com.fit.se.application.token.revoke.RevokeCommand;
-import com.fit.se.application.token.revoke.RevokeTokenHandler;
-import com.fit.se.application.user.command.signup.SignUpCommand;
-import com.fit.se.application.user.command.signup.SignUpCommandHandler;
 import com.fit.se.api.dto.response.ApiResponse;
-import com.fit.se.application.user.command.verify.VerifyOtpCommandHandler;
-import com.fit.se.application.user.command.verify.VerifyOTPCommand;
+import com.fit.se.application.signup.SignUpUseCase;
+import com.fit.se.domain.session.SessionState;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,103 +26,120 @@ import java.util.Map;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final SignUpCommandHandler signUpHandler;
-    private final VerifyOtpCommandHandler verifyOtpCommandHandler;
-    private final GenerateTokenQueryHandler generateTokenHandler;
-    private final RevokeTokenHandler revokeTokenHandler;
     private final RefreshTokenQueryHandler refreshTokenHandler;
-    private final QRChallengeQueryHandler qrChallengeRequestHandler;
-    private final QRApproveCommandHandler qrApproveCommandHandler;
-    private final QRExchangeCommandHandler qrExchangeCommandHandler;
-    private final VerifyOTPForSignInCommandHandler verifyOTPForSignInCommandHandler;
-    private final ForgotCommandHandler forgotCommandHandler;
-    private final VerifyForgotCommandHandler verifyForgotCommandHandler;
 
-    /**
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/signup")
-    public ApiResponse<?> signUp(@RequestBody SignInRequest request) {
-        SignUpCommand cmd = SignUpCommand.builder()
-                .phone(request.phone())
-                .password(request.password())
-                .build();
-        signUpHandler.execute(cmd);
+    private final SignUpUseCase ucSignUp;
+    private final SignInUseCase ucSignIn;
+    private final SignOutUseCase ucSignOut;
+    private final ForgotPasswordUseCase ucForgotPassword;
+    private final ChangePasswordUseCase ucChangePassword;
+    private final GetSessionUseCase ucGetActiveSession;
+
+    private final LockAccountUseCase ucLockAccount;
+
+    /*================================================================================================================*/
+    @PostMapping("/signup/request")
+    public ApiResponse<?> requestSignUp(@RequestBody SignUp request) {
+        ucSignUp.request(request.phone());
         return ApiResponse.builder()
                 .status(201)
-                .message("account is created")
+                .message("Vui lòng xác thực OTP qua số điện thoại")
                 .build();
     }
 
-    /**
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/signup/verify")
-    public ApiResponse<?> verifyOTPForSignUp(@RequestBody VerifyOTPRequest request) {
-        VerifyOTPCommand cmd = VerifyOTPCommand.builder()
-                .phone(request.phone())
-                .otp(request.otp())
-                .build();
-        boolean result = verifyOtpCommandHandler.execute(cmd);
+
+    @PostMapping("/signup")
+    public ApiResponse<?> signUp(@RequestBody SignUpRequest request) {
+        ucSignUp.execute(request.phone(), request.password(), request.otp());
         return ApiResponse.builder()
                 .status(200)
-                .data(Map.of("result", result))
-                .message(result ? "Đăng ký thành công": "Đăng ký thất bại, hãy thử lại!")
+                .message("Đăng ký thành công")
                 .build();
     }
 
-    /**
-     *
-     * @param request
-     * @return
-     */
+    /*================================================================================================================*/
+
     @PostMapping("/signin")
     public ApiResponse<?> signIn(@RequestBody SignInRequest request,
                                  HttpServletRequest httpRequest) {
-        String agent = httpRequest.getHeader("User-Agent");
+        GenerateTokenResult result = ucSignIn.execute(request.phone(), request.password(), httpRequest);
+        return ApiResponse.builder()
+                .status(200)
+                .data(result)
+                .message("Đăng nhập thành công")
+                .build();
+    }
+
+    /*================================================================================================================*/
+
+    @PostMapping("/signout/all")
+    public ApiResponse<?> signOutAll(@RequestBody RevokeAllCommand request) {
+        ucSignOut.executeAll(request.refreshToken());
+        return ApiResponse.builder()
+                .status(200)
+                .message("Bạn đã đăng xuất tất cả các thiết bị")
+                .build();
+    }
+
+    @PostMapping("/signout/{sessId}")
+    public ApiResponse<?> signOutClient(@AuthenticationPrincipal UserDetails user,
+                                        @PathVariable String sessId) {
+        ucSignOut.executeClient(user.getUsername(), sessId);
+        return ApiResponse.builder()
+                .status(200)
+                .message("Bạn đã đăng xuất thiết bị")
+                .build();
+    }
+
+    @PostMapping("/signout")
+    public ApiResponse<?> signOut(@RequestBody RevokeRequest request,
+                                  HttpServletRequest httpRequest,
+                                  @AuthenticationPrincipal UserDetails user) {
         String ip = httpRequest.getHeader("X-Forwarded-For");
         if (ip == null || ip.isBlank()) {
             ip = httpRequest.getRemoteAddr();
         }
-        GenerateTokenQuery query = GenerateTokenQuery.builder()
-                .phone(request.phone())
-                .password(request.password())
-                .deviceName(agent)
-                .ipAddress(ip)
-                .loginMethod("PASSWORD")
-                .build();
-
-        generateTokenHandler.execute(query);
+        ucSignOut.execute(user.getUsername(), request.refreshToken(), ip, request.sessId());
         return ApiResponse.builder()
-                .status(200)
-                .message("")
+                .status(201)
+                .message("Bạn đã đăng xuất thiết bị này")
                 .build();
     }
 
-    @PostMapping("/signin/verify")
-    public ApiResponse<?> verifyOTPForSignIn(@RequestBody VerifyOTPRequest request,
-                                             HttpServletRequest httpRequest) {
-        VerifyOTPForSignInCommand cmd = VerifyOTPForSignInCommand.builder()
-                .phone(request.phone())
-                .otp(request.otp())
-                .httpRequest(httpRequest)
-                .build();
+    /*================================================================================================================*/
+
+    @PostMapping("/qr/challenges/request")
+    public ApiResponse<?> requestQRChallenges(HttpServletRequest httpRequest) {
         return ApiResponse.builder()
-                .status(200)
-                .data(verifyOTPForSignInCommandHandler.execute(cmd))
+                .status(201)
+                .data(ucSignIn.generateQR(httpRequest))
+                .message("Đã tạo mã QR")
                 .build();
     }
 
-    /**
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/refresh")
+    @PostMapping("/qr/challenges/{id}/approve")
+    public ApiResponse<?> approveChallenge(@PathVariable("id") String id,
+                                           @AuthenticationPrincipal UserDetails user) {
+        ucSignIn.approveQR(id, user.getUsername());
+        return ApiResponse.builder()
+                .status(201)
+                .message("Đăng nhập bằng mã QR")
+                .build();
+    }
+
+    @PostMapping("/qr/challenges/{id}/exchange")
+    public ApiResponse<?> exchangeChallenge(@PathVariable("id") String id,
+                                            HttpServletRequest httpRequest) {
+        return ApiResponse.builder()
+                .status(201)
+                .data(ucSignIn.exchangeQR(id, httpRequest))
+                .message("Đăng nhập thành công")
+                .build();
+    }
+
+    /*================================================================================================================*/
+
+    @PostMapping("/token/refresh")
     public ApiResponse<?> refreshToken(@RequestBody RefreshTokenRequest request,
                                        HttpServletRequest httpRequest) {
         String ip = httpRequest.getHeader("X-Forwarded-For");
@@ -147,156 +153,86 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .status(200)
                 .data(refreshTokenHandler.execute(query))
+                .message("Đã làm mới token")
                 .build();
     }
 
-    /**
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/signout")
-    public ApiResponse<?> signOut(@RequestBody RevokeRequest request,
-                                  HttpServletRequest httpRequest,
-                                  @AuthenticationPrincipal UserDetails user) {
-        String ip = httpRequest.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isBlank()) {
-            ip = httpRequest.getRemoteAddr();
-        }
-        RevokeCommand cmd = RevokeCommand.builder()
-                .subject(user.getUsername())
-                .refreshToken(request.refreshToken())
-                .ipAddress(ip)
-                .build();
-        revokeTokenHandler.execute(cmd);
-        return ApiResponse.builder()
-                .status(201)
-                .message("account is logout")
-                .build();
-    }
 
-    /**
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("/signout/all-client")
-    public ApiResponse<?> signOutAllClient(@RequestBody RevokeAllCommand request) {
-        RevokeAllCommand cmd = RevokeAllCommand.builder()
-                .refreshToken(request.refreshToken())
-                .build();
-        revokeTokenHandler.execute(cmd);
+    /*================================================================================================================*/
+
+    @PostMapping("/password/reset/request")
+    public ApiResponse<?> requestResetPassword(@RequestBody ResetPasswordRequest request) {
+        ucForgotPassword.request(request.source(), request.type());
         return ApiResponse.builder()
                 .status(200)
+                .message("Vui lòng xác nhận thay đổi")
                 .build();
     }
 
-    /**
-     *
-     * @param
-     * @return
-     */
-    @PostMapping("/qr/challenges")
-    public ApiResponse<?> qrChallenges(HttpServletRequest httpRequest) {
-        String agent = httpRequest.getHeader("User-Agent");
-        String ip = httpRequest.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isBlank()) {
-            ip = httpRequest.getRemoteAddr();
-        }
-        QRChallengeQuery query = QRChallengeQuery.builder()
-                .ipAddress(ip)
-                .agent(agent)
-                .build();
-        return ApiResponse.builder()
-                .status(201)
-                .data(qrChallengeRequestHandler.execute(query))
-                .message("account is logout")
-                .build();
-    }
-
-    /**
-     *
-     * @param
-     * @return
-     */
-    @PostMapping("/qr/challenges/{id}/approve")
-    public ApiResponse<?> qrChallengesApprove(@PathVariable("id") String id,
-                                              HttpServletRequest httpRequest,
-                                              @AuthenticationPrincipal UserDetails user) {
-        String agent = httpRequest.getHeader("User-Agent");
-        String ip = httpRequest.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isBlank()) {
-            ip = httpRequest.getRemoteAddr();
-        }
-        QRApproveCommand cmd = QRApproveCommand.builder()
-                .challengeId(id)
-                .userId(user.getUsername())
-                .ipAddress(ip)
-                .agent(agent)
-                .build();
-        qrApproveCommandHandler.execute(cmd);
-        return ApiResponse.builder()
-                .status(201)
-                .message("account is logout")
-                .build();
-    }
-
-    /**
-     *
-     * @param
-     * @return
-     */
-    @PostMapping("/qr/challenges/{id}/exchange")
-    public ApiResponse<?> qrChallengesExchange(@PathVariable("id") String id,
-                                               HttpServletRequest httpRequest) {
-        String agent = httpRequest.getHeader("User-Agent");
-        String ip = httpRequest.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isBlank()) {
-            ip = httpRequest.getRemoteAddr();
-        }
-        QRExchangeCommand cmd = QRExchangeCommand.builder()
-                .challengeId(id)
-                .ipAddress(ip)
-                .agent(agent)
-                .build();
-
-        return ApiResponse.builder()
-                .status(201)
-                .data(qrExchangeCommandHandler.execute(cmd))
-                .message("account is logout")
-                .build();
-    }
-
-    @PostMapping("/forgot/phone")
-    public ApiResponse<?> forgotPasswordByPhone(@RequestBody ForgotPasswordPhoneRequest request) {
-        ForgotByPhoneCommand cmd = ForgotByPhoneCommand.builder()
-                .phone(request.phone())
-                .build();
-        forgotCommandHandler.execute(cmd);
+    @PostMapping("/password/reset/confirm")
+    public ApiResponse<?> confirmResetPassword(@RequestBody ConfirmResetPassword request) {
+        String resetToken = ucForgotPassword.confirm(request.source(), request.type(), request.otp());
         return ApiResponse.builder()
                 .status(200)
-                .message("If the phone number exists, OTP has been sent.")
+                .data(Map.of("resetToken", resetToken))
+                .message("Xác nhận mã OTP thành công")
                 .build();
     }
 
-    @PostMapping("/forgot/phone/verify")
-    public ApiResponse<?> verifyForgotPasswordByPhone(@RequestBody ForgotPasswordPhoneRequest request) {
-        VerifyForgotCommand cmd = VerifyForgotCommand.builder()
-                .phone(request.phone())
-                .build();
+    @PostMapping("/password/reset")
+    public ApiResponse<?> resetPassword(@RequestHeader("Authorization") String authorizationHeader,
+                                        HttpServletRequest httpRequest,
+                                        @RequestBody ResetPassword request) {
+        GenerateTokenResult result = ucForgotPassword.execute(request.password(), authorizationHeader, httpRequest);
 
         return ApiResponse.builder()
                 .status(200)
-                .data(verifyForgotCommandHandler.execute(cmd))
+                .data(result)
+                .message("Mật khẩu đã được làm mới")
                 .build();
     }
 
-    @PostMapping("/forgot/email")
-    public ApiResponse<?> forgotPasswordByEmail(@RequestBody ForgotPasswordEmailRequest request) {
-
+    @PostMapping("/password/change")
+    public ApiResponse<?> changePassword(@AuthenticationPrincipal UserDetails user, @RequestBody ChangePasswordRequest request) {
+        ucChangePassword.execute(user.getUsername(), request.newPass(), request.oldPass());
+        ucSignOut.executeAll(request.refreshToken());
         return ApiResponse.builder()
                 .status(200)
-                .message("If the email exists, reset instructions have been sent.")
+                .message("Thay đổi mật khẩu mới thành công")
                 .build();
     }
+
+    /*================================================================================================================*/
+
+    @GetMapping("/sessions/active")
+    public ApiResponse<?> getActiveSession(@AuthenticationPrincipal UserDetails user) {
+        return ApiResponse.builder()
+                .status(200)
+                .data(ucGetActiveSession.execute(user.getUsername(), SessionState.ACTIVE))
+                .build();
+    }
+
+    @GetMapping("/sessions/unactive")
+    public ApiResponse<?> getUnactiveSession(@AuthenticationPrincipal UserDetails user) {
+        return ApiResponse.builder()
+                .status(200)
+                .data(ucGetActiveSession.executeWithout(user.getUsername(), SessionState.ACTIVE))
+                .build();
+    }
+
+    /*================================================================================================================*/
+
+    @PostMapping("/lock")
+    public ApiResponse<?> lockAccount(@AuthenticationPrincipal UserDetails user) {
+        ucLockAccount.execute(user.getUsername());
+        return ApiResponse.builder().build();
+    }
+
+//    @DeleteMapping
+//    public ApiResponse<?> deleteAccount(@AuthenticationPrincipal UserDetails user,) {
+//        ucLockAccount.execute(user.getUsername());
+//        ucSignOut.executeAll();
+//        return ApiResponse.builder()
+//                .build();
+//    }
 }

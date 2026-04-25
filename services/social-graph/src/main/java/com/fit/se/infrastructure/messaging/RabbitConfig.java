@@ -21,4 +21,5 @@ public class RabbitConfig {
         template.setMessageConverter(converter);
         return template;
     }
+
 }

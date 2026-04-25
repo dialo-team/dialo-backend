@@ -21,4 +21,10 @@ public class ClientSession {
     private LocalDate lastActiveDate;
     private String address;
     private String ipAddress;
+
+    private SessionState state;
+
+    public void changeState(SessionState state) {
+        this.state = state;
+    }
 }

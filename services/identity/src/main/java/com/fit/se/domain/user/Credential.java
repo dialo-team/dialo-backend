@@ -42,7 +42,7 @@ public class Credential {
         return credential;
     }
 
-    public static Credential create(String id, String secretData, String type, String credentialData, byte[] salt, String userId) {
+    public static Credential create(String id, String secretData, String type, String credentialData, byte[] salt, String userId, int version) {
         Credential credential = new Credential();
         credential.id = id;
         credential.userId = userId;
@@ -51,8 +51,8 @@ public class Credential {
         credential.salt = salt;
         credential.credentialData = credentialData;
         credential.priority = 0;
-        credential.version = 1;
         credential.userId = userId;
+        credential.version = version;
         return credential;
     }
 }

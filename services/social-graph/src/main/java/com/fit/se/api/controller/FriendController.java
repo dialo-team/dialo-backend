@@ -13,6 +13,7 @@ import com.fit.se.application.friendship.command.unfriend.UnFriendCommand;
 import com.fit.se.application.friendship.command.unfriend.UnFriendCommandHandler;
 import com.fit.se.application.friendship.query.check.CheckFriendQuery;
 import com.fit.se.application.friendship.query.check.CheckFriendQueryHandler;
+import com.fit.se.infrastructure.config.context.HolderContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +32,11 @@ public class FriendController {
 
 
     @PostMapping("/{targetId}/request")
-    public void sendRequest(@PathVariable("targetId") String receiverId,
-                            @RequestHeader("X-User-Id") String senderId,
+    public void sendRequest(@PathVariable("targetId") String receiverId
+                            ,
                             @RequestBody(required = false) SendFriendRequest request) {
         RequestFriendCommand cmd = RequestFriendCommand.builder()
-                .senderId(senderId)
+                .senderId(HolderContext.getRequiredUserId())
                 .receiverId(receiverId)
                 .friendshipId(UUID.randomUUID().toString())
                 .build();
@@ -43,48 +44,48 @@ public class FriendController {
     }
 
     @DeleteMapping("/{targetId}/request")
-    public void cancelRequest(@PathVariable("targetId") String receiverId,
-                              @RequestHeader("X-User-Id") String senderId) {
+    public void cancelRequest(@PathVariable("targetId") String receiverId
+                              ) {
         CancelFriendCommand cmd = CancelFriendCommand.builder()
-                .senderId(senderId)
+                .senderId(HolderContext.getRequiredUserId())
                 .receiverId(receiverId)
                 .build();
         cancelFriendHandler.execute(cmd);
     }
 
     @PostMapping("/{targetId}/accept")
-    public void accept(@PathVariable("targetId") String receiverId,
-                       @RequestHeader("X-User-Id") String senderId) {
+    public void accept(@PathVariable("targetId") String receiverId
+                       ) {
         AcceptFriendCommand cmd = AcceptFriendCommand.builder()
-                .senderId(senderId)
+                .senderId(HolderContext.getRequiredUserId())
                 .receiverId(receiverId)
                 .build();
         acceptFriendHandler.execute(cmd);
     }
 
     @PostMapping("/{targetId}/reject")
-    public void rejectRequest(@PathVariable("targetId") String receiverId,
-                              @RequestHeader("X-User-Id") String senderId) {
+    public void rejectRequest(@PathVariable("targetId") String receiverId
+                              ) {
         RejectFriendCommand cmd = RejectFriendCommand.builder()
-                .senderId(senderId)
+                .senderId(HolderContext.getRequiredUserId())
                 .receiverId(receiverId)
                 .build();
         rejectFriendHandler.execute(cmd);
     }
 
     @DeleteMapping("/{targetId}/unfriend")
-    public void unFriend(@PathVariable("targetId") String receiverId,
-                         @RequestHeader("X-User-Id") String senderId) {
+    public void unFriend(@PathVariable("targetId") String receiverId
+                         ) {
         UnFriendCommand cmd = UnFriendCommand.builder()
-                .userAId(senderId)
+                .userAId(HolderContext.getRequiredUserId())
                 .userBId(receiverId)
                 .build();
         unFriendHandler.execute(cmd);
     }
 
     @GetMapping("/{targetId}/check")
-    public void check(@PathVariable("targetId") String receiverId,
-                      @RequestHeader("X-User-Id") String senderId) {
+    public void check(@PathVariable("targetId") String receiverId
+                      ) {
         CheckFriendQuery query = CheckFriendQuery.builder()
                 .build();
         checkFriendHandler.execute(query);

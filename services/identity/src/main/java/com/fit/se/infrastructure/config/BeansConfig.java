@@ -1,5 +1,6 @@
 package com.fit.se.infrastructure.config;
 
+import io.awspring.cloud.sns.sms.SnsSmsTemplate;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sns.SnsClient;
 
 import java.util.List;
 import java.util.Properties;
@@ -84,5 +89,25 @@ public class BeansConfig {
                 .withCache(1000)
                 .build();
 
+    }
+
+    @Bean
+    public SnsSmsTemplate snsConfig(SnsClient client) {
+        return new SnsSmsTemplate(client);
+    }
+
+    @Bean
+    public SnsClient snsClient(
+            @Value("${spring.cloud.aws.credentials.access-key}") String accessKey,
+            @Value("${spring.cloud.aws.credentials.secret-key}") String secretKey
+    ) {
+        return SnsClient.builder()
+                .region(Region.AP_SOUTHEAST_1)
+                .credentialsProvider(
+                        StaticCredentialsProvider.create(
+                                AwsBasicCredentials.create(accessKey, secretKey)
+                        )
+                )
+                .build();
     }
 }
