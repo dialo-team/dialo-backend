@@ -1,0 +1,65 @@
+các phần được đánh dấu là:
+- Y: nghĩ và viết nội dung/đã có nội dung
+- N: chưa có tài liệu
+
+Slide 1: bìa báo cáo - Y
+- Tên đề tài
+- Giảng viên hướng dẫn
+- Số nhóm + danh sách thành viên (mssv + họ tên)
+
+Slide 2: Mục lục - Y
+- Giới thiệu hệ thống
+- Các chức năng chính
+- Kiến trúc hệ thống
+- Sơ đồ C4
+- Công nghệ sử dụng
+- Tài liệu tham khảo
+
+Slide 3: Giới thiệu hệ thống - Y
+Mô tả ngắn hệ thống/phần mềm, đối tượng sử dụng là ai
+
+Slide 4: Mục tiêu và phạm vi hệ thống - Y
+Trình bày mục tiêu xây dựng (không nói là giải quyết vấn đề mà diễn giải theo hướng đồ án môn học), phạm vi chức năng, giới hạn của hệ thống
+
+Slide 5: Các tác nhân/người dùng hệ thống - Y
+Tác nhân có vai trò gì trong hệ thống
+
+Slide 6: Chức năng chính của hệ thống - Y
+- Nhắn tin
+- Gọi thoại và video
+- Kết bạn
+- Liệt kê một số chức năng phụ
+
+Slide 7,8: Chi tiết chức năng Nhắn tin - N
+- [hình ảnh - nhắn 1:1]
+- [hình ảnh - nhắn nhóm]
+
+Slide 9: Gọi thoại và video - N
+- [hình ảnh]
+
+Slide 10: Gọi thoại và video - N
+- [hình ảnh]
+
+Slide 11: Kiến trúc C4 - Context - N
+- [hình ảnh]
+
+Slide 12: Kiến trúc C4 - Container - N
+- [hình ảnh]
+
+Slide 13: Kiến trúc C4 - Component - N
+- [hình ảnh]
+
+Slide 14: Công nghệ sử dụng - N
+- note: Có nhiều hơn 1 slide nên để sau khi có ảnh
+
+Slide 15: Kết luận - Y
+- Tóm tắt hệ thống, chức năng đã xây dựng và công nghệ chính
+
+Slide 16: Tài liệu tham khảo - N
+- Trích danh sách tài liệu tham khảo (có thể nhiều hơn một slide)
+
+Slide 17: Lời cảm ơn - Y
+
+
+
+chú ý: ppt phải có đánh số trang + thời gian (ngày báo cáo) ở dưới footer

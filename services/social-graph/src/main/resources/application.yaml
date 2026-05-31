@@ -1,25 +1,37 @@
-spring:
+﻿spring:
   application:
     name: ms_social_service
-  neo4j:
-    uri: bolt://localhost:7687
-    authentication:
-      username: neo4j
-      password: ms_social_root
-  rabbitmq:
-    host: localhost
-    port: 5672
-    stream:
-      username: root
-      password: root
-    username: root
-    password: root
-  jpa:
-    d
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
+  neo4j:
+    uri: ${SPRING_NEO4J_URI:bolt://localhost:7687} # docker: bolt://ms_social_database:7687
+    authentication:
+      username: ${SPRING_NEO4J_USERNAME:neo4j}
+      password: ${SPRING_NEO4J_PASSWORD:ms_social_root}
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost} # docker: ms_rabbitmq
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:root}
+    password: ${SPRING_RABBITMQ_PASSWORD:root}
+    stream:
+      username: ${SPRING_RABBITMQ_STREAM_USERNAME:${SPRING_RABBITMQ_USERNAME:root}}
+      password: ${SPRING_RABBITMQ_STREAM_PASSWORD:${SPRING_RABBITMQ_PASSWORD:root}}
 
 server:
   port: 8084
+
+aws:
+  access-key-id: AKIARLNKCLKL2ISEWDZJ
+  secret-access-key: 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
+  region: ap-southeast-1
+  s3:
+    bucket: jzang-bucket
+    public-base-url: https://jzang-bucket.s3.ap-southeast-1.amazonaws.com
+
 axon:
   axonserver:
     servers: localhost
