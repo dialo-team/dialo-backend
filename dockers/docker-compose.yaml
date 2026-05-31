@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /root/data/iam/postgresql:/var/lib/postgresql
+      - D:/project/dialo/data/iam/postgresql:/var/lib/postgresql
   ms_iam_redis:
     container_name: ms_iam_redis
     image: redis:8
@@ -16,7 +16,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - /root/data/iam/redis:/data
+      - D:/project/dialo/data/iam/redis:/data
   ms_iam_service:
     container_name: ms_iam_service
     image: jzang/ms_iam_service:v2.1.1
@@ -38,7 +38,8 @@ services:
       - "7687:7687"
       - "7474:7474"
     volumes:
-      - /root/data/social/neo4j:/data
+      - D:/project/dialo/data/social/neo4j/data:/data
+      - D:/project/dialo/data/social/neo4j/logs:/logs
   ms_social_service:
     container_name: ms_social_service
     image: jzang/ms_social_service:v1.0.0
@@ -58,7 +59,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - /root/data/conversation/postgresql:/var/lib/postgresql
+      - D:/project/dialo/data/conversation/postgresql:/var/lib/postgresql
 
   ms_chat_database:
     container_name: ms_chat_database
@@ -68,7 +69,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /root/data/chat/mongodb:/data/db
+      - D:/project/dialo/data/chat/mongodb:/data/db
 
   ms_chat_service:
     container_name: ms_chat_service
@@ -96,4 +97,17 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - /root/data/rabbitmq:/var/lib/rabbitmq
+      - D:/project/dialo/data/rabbitmq:/var/lib/rabbitmq
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+
+volumes:
+  portainer_data:

@@ -114,10 +114,6 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * Nếu token của bạn chưa có roles thì cứ trả về empty list.
-     * Sau này nếu token có claim roles/authorities thì parse tại đây.
-     */
     private List<SimpleGrantedAuthority> extractAuthorities(String jwt) {
         return Collections.emptyList();
     }

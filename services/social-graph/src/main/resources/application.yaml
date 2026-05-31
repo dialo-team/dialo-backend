@@ -1,4 +1,4 @@
-spring:
+﻿spring:
   application:
     name: ms_social_service
   servlet:
@@ -7,19 +7,19 @@ spring:
       max-request-size: 10MB
 
   neo4j:
-    uri: bolt://14.225.254.174:7687
+    uri: ${SPRING_NEO4J_URI:bolt://localhost:7687} # docker: bolt://ms_social_database:7687
     authentication:
-      username: neo4j
-      password: ms_social_root
+      username: ${SPRING_NEO4J_USERNAME:neo4j}
+      password: ${SPRING_NEO4J_PASSWORD:ms_social_root}
 
   rabbitmq:
-    host: 14.225.254.174
-    port: 5672
-    username: root
-    password: root
+    host: ${SPRING_RABBITMQ_HOST:localhost} # docker: ms_rabbitmq
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:root}
+    password: ${SPRING_RABBITMQ_PASSWORD:root}
     stream:
-      username: root
-      password: root
+      username: ${SPRING_RABBITMQ_STREAM_USERNAME:${SPRING_RABBITMQ_USERNAME:root}}
+      password: ${SPRING_RABBITMQ_STREAM_PASSWORD:${SPRING_RABBITMQ_PASSWORD:root}}
 
 server:
   port: 8084

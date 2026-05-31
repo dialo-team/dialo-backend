@@ -67,7 +67,6 @@ public class JWTProvider implements TokenProvider {
     }
 
     public Claims extractClaims(String token) {
-        System.out.println("token: " + token);
         try {
             return Jwts.parser()
                     .verifyWith(publicKey)

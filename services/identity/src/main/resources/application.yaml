@@ -1,12 +1,12 @@
-spring:
+﻿spring:
   application:
     name: identity
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ms_iam_database} # docker: jdbc:postgresql://ms_iam_database:5432/ms_iam_database
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
 
   jpa:
     hibernate:
@@ -14,21 +14,20 @@ spring:
 
   data:
     redis:
-      host: ${SPRING_DATA_REDIS_HOST}
-      port: ${SPRING_DATA_REDIS_PORT}
       database: 0
+      url: ${SPRING_DATA_REDIS_URL:redis://localhost:6379} # docker: redis://ms_iam_redis:6379
 
   rabbitmq:
-    host: ${SPRING_RABBITMQ_HOST}
-    port: ${SPRING_RABBITMQ_PORT}
-    username: ${SPRING_RABBITMQ_USERNAME}
-    password: ${SPRING_RABBITMQ_PASSWORD}
+    host: ${SPRING_RABBITMQ_HOST:localhost} # docker: ms_rabbitmq
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:root}
+    password: ${SPRING_RABBITMQ_PASSWORD:root}
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${SPRING_MAIL_USERNAME}
-    password: ${SPRING_MAIL_PASSWORD}
+    username: ${SPRING_MAIL_USERNAME:caphecungjzang@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:your_new_rotated_app_password}
     properties:
       mail:
         smtp:
@@ -40,8 +39,8 @@ spring:
       region:
         static: ap-southeast-1
       credentials:
-        access-key: ${ACCESS_KEY}
-        secret-key: ${SECRET_KEY}
+        access-key: ${ACCESS_KEY:AKIARLNKCLKLWM5K3NYW}
+        secret-key: ${SECRET_KEY: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}
       sns:
         enabled: true
         endpoint: arn:aws:sns:ap-southeast-1:093235337879:dialo-topic

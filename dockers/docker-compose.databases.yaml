@@ -1,0 +1,53 @@
+﻿services:
+  ms_iam_database:
+    container_name: ms_iam_database
+    image: postgres:18
+    env_file:
+      - .env.iam
+    ports:
+      - "5432:5432"
+    volumes:
+      - D:/project/dialo/data/iam/postgresql:/var/lib/postgresql
+
+  ms_iam_redis:
+    container_name: ms_iam_redis
+    image: redis:8
+    env_file:
+      - .env.iam
+    ports:
+      - "6379:6379"
+    volumes:
+      - D:/project/dialo/data/iam/redis:/data
+
+  ms_social_database:
+    container_name: ms_social_database
+    image: neo4j:2026
+    env_file:
+      - .env.social
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - D:/project/dialo/data/social/neo4j/data:/data
+      - D:/project/dialo/data/social/neo4j/logs:/logs
+
+  ms_chat_database:
+    container_name: ms_chat_database
+    image: mongo:8
+    env_file:
+      - .env.chat
+    ports:
+      - "27017:27017"
+    volumes:
+      - D:/project/dialo/data/chat/mongodb:/data/db
+
+  ms_rabbitmq:
+    container_name: ms_rabbitmq
+    image: rabbitmq:4-management
+    env_file:
+      - .env.rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - D:/project/dialo/data/rabbitmq:/var/lib/rabbitmq
