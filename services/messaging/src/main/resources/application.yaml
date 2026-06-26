@@ -1,0 +1,45 @@
+﻿spring:
+  application:
+    name: messaging
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost} # docker: ms_rabbitmq
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:root}
+    password: ${SPRING_RABBITMQ_PASSWORD:root}
+  mongodb:
+    uri: ${SPRING_MONGODB_URI:mongodb://root:root@localhost:27017/chatdb?authSource=admin} # docker: mongodb://root:root@ms_chat_database:27017/chatdb?authSource=admin
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION:ap-southeast-1}
+      credentials:
+        access-key: ${ACCESS_KEY:AKIARLNKCLKLWM5K3NYW}
+        secret-key: ${SECRET_KEY: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}
+
+server:
+  port: ${SERVER_PORT:8085}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+
+security:
+  jwt:
+    public-key: ${SECURITY_JWT_PUBLIC_KEY:classpath:certs/public.pem}
+
+app:
+  upload:
+    s3:
+      bucket: ${APP_UPLOAD_S3_BUCKET:dialo-messaging}
+      key-prefix: ${APP_UPLOAD_S3_KEY_PREFIX:messaging/attachments}
+      public-base-url: ${APP_UPLOAD_S3_PUBLIC_BASE_URL:}

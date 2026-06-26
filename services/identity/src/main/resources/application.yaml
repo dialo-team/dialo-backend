@@ -1,0 +1,71 @@
+﻿spring:
+  application:
+    name: identity
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ms_iam_database} # docker: jdbc:postgresql://ms_iam_database:5432/ms_iam_database
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  data:
+    redis:
+      database: 0
+      url: ${SPRING_DATA_REDIS_URL:redis://localhost:6379} # docker: redis://ms_iam_redis:6379
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost} # docker: ms_rabbitmq
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:root}
+    password: ${SPRING_RABBITMQ_PASSWORD:root}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SPRING_MAIL_USERNAME:caphecungjzang@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:your_new_rotated_app_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  cloud:
+    aws:
+      region:
+        static: ap-southeast-1
+      credentials:
+        access-key: ${ACCESS_KEY:AKIARLNKCLKLWM5K3NYW}
+        secret-key: ${SECRET_KEY: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}
+      sns:
+        enabled: true
+        endpoint: arn:aws:sns:ap-southeast-1:093235337879:dialo-topic
+        region: ap-southeast-1
+esms:
+  api-key: 90E2791E666EB86A2596BFF67186BE
+  secret-key: 7579BF01D4E0834285135F4F514AF5
+  brandname: Baotrixemay
+  callback-url: https://esms.vn/webhook/
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+security:
+  jwt:
+    private-key: classpath:certs/private.pem
+    public-key: classpath:certs/public.pem
+
+app:
+  security:
+    jwt:
+      access-token-expiration: 86400000
+      refresh-token-expiration: 604800000
+    disposable-email: 10minutemail,20minutemail,33mail,5ymail,anonbox,guerrillamail,mailinator,maildrop,mailnesia,moakt,my10minutemail,throwawaymail,trashmail,temp-mail,tempmail,truemail,yopmail
+
+server:
+  port: ${SERVER_PORT:8082}

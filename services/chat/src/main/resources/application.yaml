@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: chat
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+
+  mongodb:
+    uri: ${SPRING_MONGODB_URI}
+
+server:
+  port: ${SERVER_PORT:8085}
+
+app:
+  upload-dir: ${APP_UPLOAD_DIR:uploads}
